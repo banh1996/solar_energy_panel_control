@@ -641,6 +641,16 @@
               <FileType>1</FileType>
               <FilePath>.\application\app_photoresistor_sensor.c</FilePath>
             </File>
+            <File>
+              <FileName>app_button_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_button_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_led_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_led_control.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -1316,6 +1326,16 @@
               <FileName>app_photoresistor_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_photoresistor_sensor.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_button_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_button_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_led_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_led_control.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1993,6 +2013,16 @@
               <FileType>1</FileType>
               <FilePath>.\application\app_photoresistor_sensor.c</FilePath>
             </File>
+            <File>
+              <FileName>app_button_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_button_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_led_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_led_control.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -2668,6 +2698,16 @@
               <FileName>app_photoresistor_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_photoresistor_sensor.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_button_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_button_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_led_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_led_control.c</FilePath>
             </File>
           </Files>
         </Group>

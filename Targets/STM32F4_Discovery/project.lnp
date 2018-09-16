@@ -16,6 +16,8 @@
 ".\targets\stm32f4_discovery\system_stm32f4xx.o"
 ".\targets\stm32f4_discovery\app_motor_control.o"
 ".\targets\stm32f4_discovery\app_photoresistor_sensor.o"
+".\targets\stm32f4_discovery\app_button_control.o"
+".\targets\stm32f4_discovery\app_led_control.o"
 --nodebug --strict --scatter ".\Targets\STM32F4_Discovery\project.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
