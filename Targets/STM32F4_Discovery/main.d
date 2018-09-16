@@ -45,3 +45,4 @@
 .\targets\stm32f4_discovery\main.o: .\application\app_motor_control.h
 .\targets\stm32f4_discovery\main.o: .\application\app_photoresistor_sensor.h
 .\targets\stm32f4_discovery\main.o: ..\00-STM32F429_LIBRARIES\tm_stm32f4_adc.h
+.\targets\stm32f4_discovery\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
