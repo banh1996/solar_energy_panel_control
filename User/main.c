@@ -17,10 +17,12 @@
 /* Include core modules */
 #include "stm32f4xx.h"
 /* Include my libraries here */
-#include "defines.h"
 #include "tm_stm32f4_pwm.h"
 #include "tm_stm32f4_disco.h"
 #include "tm_stm32f4_delay.h"
+#include "app_motor_control.h"
+#include "app_photoresistor_sensor.h"
+
 
 int main(void) {
 	TM_PWM_TIM_t TIM2_Data;
