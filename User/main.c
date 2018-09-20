@@ -22,7 +22,7 @@
 #include "tm_stm32f4_delay.h"
 #include "app_motor_control.h"
 #include "app_photoresistor_sensor.h"
-
+#include "app_led_control.h"
 
 int main(void) {
 	TM_PWM_TIM_t TIM2_Data;

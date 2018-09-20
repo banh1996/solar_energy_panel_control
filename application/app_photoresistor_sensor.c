@@ -11,5 +11,5 @@ void app_photoresistor_init(void)
 
 uint16_t app_photoresistor_read(uint8_t channel)
 {
-	return TM_ADC_Read(ADC1, channel);
+	return TM_ADC_Read(ADC3, channel);
 }
