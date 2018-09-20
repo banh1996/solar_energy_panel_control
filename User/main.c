@@ -47,7 +47,8 @@ int main(void) {
 	/* Servo in position */
 	Delayms(1000);
 
-	while (1) {
+	while (1) 
+{
 		if (position == 1000) {
 			/* Change direction */
 			position = 2000;

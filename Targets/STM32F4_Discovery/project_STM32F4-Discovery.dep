@@ -452,7 +452,7 @@ I (..\00-STM32F429_LIBRARIES\tm_stm32f4_delay.h)(0x5856DC3A)
 I (..\00-STM32F429_LIBRARIES\attributes.h)(0x5856DC3A)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599FAE2C)
 I (.\application\app_motor_control.h)(0x5B9DD590)
-I (.\application\app_photoresistor_sensor.h)(0x5B9DE973)
+I (.\application\app_photoresistor_sensor.h)(0x5B9DF7B1)
 I (..\00-STM32F429_LIBRARIES\tm_stm32f4_adc.h)(0x5856DC3A)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599FAE2C)
 F (.\User\stm32f4xx_conf.h)(0x5856DC3A)()
@@ -569,8 +569,8 @@ I (..\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\STM32F4xx_StdPeriph_Driver\inc\st
 I (..\00-STM32F429_LIBRARIES\tm_stm32f4_timer_properties.h)(0x5856DC3A)
 I (.\User\defines.h)(0x5856DC3A)
 I (..\00-STM32F429_LIBRARIES\tm_stm32f4_gpio.h)(0x5856DC3A)
-F (.\application\app_photoresistor_sensor.c)(0x5B9DE973)(-c --cpu Cortex-M4.fp -D__EVAL -O2 --apcs=interwork -I .\User -I ..\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\STM32F4xx_StdPeriph_Driver\inc -I ..\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\STM32F4xx_StdPeriph_Driver\src -I ..\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Include -I ..\00-STM32F429_LIBRARIES -I ..\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Include -I ..\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm -I ..\TM -I .\application-I.\RTE\_STM32F4-Discovery-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DSTM32F4XX -D__ASSEMBLY__ -DKEIL_IDE -DTM_DISCO_STM32F4_DISCOVERY --C99-o .\targets\stm32f4_discovery\app_photoresistor_sensor.o --depend .\targets\stm32f4_discovery\app_photoresistor_sensor.d)
-I (application\app_photoresistor_sensor.h)(0x5B9DE973)
+F (.\application\app_photoresistor_sensor.c)(0x5B9DF80C)(-c --cpu Cortex-M4.fp -D__EVAL -O2 --apcs=interwork -I .\User -I ..\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\STM32F4xx_StdPeriph_Driver\inc -I ..\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\STM32F4xx_StdPeriph_Driver\src -I ..\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Include -I ..\00-STM32F429_LIBRARIES -I ..\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Include -I ..\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm -I ..\TM -I .\application-I.\RTE\_STM32F4-Discovery-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DSTM32F4XX -D__ASSEMBLY__ -DKEIL_IDE -DTM_DISCO_STM32F4_DISCOVERY --C99-o .\targets\stm32f4_discovery\app_photoresistor_sensor.o --depend .\targets\stm32f4_discovery\app_photoresistor_sensor.d)
+I (application\app_photoresistor_sensor.h)(0x5B9DF7B1)
 I (..\00-STM32F429_LIBRARIES\tm_stm32f4_adc.h)(0x5856DC3A)
 I (..\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5856DC3A)
 I (..\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Include\core_cm4.h)(0x5856DC3A)
@@ -610,7 +610,7 @@ I (.\User\defines.h)(0x5856DC3A)
 I (..\00-STM32F429_LIBRARIES\tm_stm32f4_gpio.h)(0x5856DC3A)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599FAE2C)
 F (.\application\app_button_control.c)(0x5B9DE973)(-c --cpu Cortex-M4.fp -D__EVAL -O2 --apcs=interwork -I .\User -I ..\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\STM32F4xx_StdPeriph_Driver\inc -I ..\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\STM32F4xx_StdPeriph_Driver\src -I ..\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Include -I ..\00-STM32F429_LIBRARIES -I ..\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Include -I ..\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm -I ..\TM -I .\application-I.\RTE\_STM32F4-Discovery-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="526" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER -DSTM32F4XX -D__ASSEMBLY__ -DKEIL_IDE -DTM_DISCO_STM32F4_DISCOVERY --C99-o .\targets\stm32f4_discovery\app_button_control.o --depend .\targets\stm32f4_discovery\app_button_control.d)
-I (application\app_button_control.h)(0x5B9DE973)
+I (application\app_button_control.h)(0x5B9DEC3A)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599FAE2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x599FAE2E)
 I (..\00-STM32F429_LIBRARIES\tm_stm32f4_disco.h)(0x5856DC3A)
