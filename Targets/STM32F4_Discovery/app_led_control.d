@@ -39,3 +39,4 @@
 .\targets\stm32f4_discovery\app_led_control.o: .\User\defines.h
 .\targets\stm32f4_discovery\app_led_control.o: ..\00-STM32F429_LIBRARIES\tm_stm32f4_gpio.h
 .\targets\stm32f4_discovery\app_led_control.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\targets\stm32f4_discovery\app_led_control.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h

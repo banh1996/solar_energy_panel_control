@@ -3,6 +3,7 @@
 
 #include "tm_stm32f4_disco.h"
 #include <stdio.h>
+#include <stdbool.h>
 
 /* brief: init led board
 */
