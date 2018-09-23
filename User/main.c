@@ -45,7 +45,7 @@ int main(void) {
 	TM_PWM_SetChannelMicros(&TIM2_Data, TM_PWM_Channel_1, 1500);
 	
 	/* Servo in position */
-	Delayms(1000);
+	Delayms(1111);
 
 	while (1) 
 {
