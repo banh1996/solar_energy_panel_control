@@ -77,6 +77,7 @@ void app_motor_stop(uint8_t motor)
 		TM_PWM_SetChannelMicros(&TIM2_Data, TM_PWM_Channel_1, 0);
 		TM_GPIO_SetPinLow(GPIOD, GPIO_Pin_9);
 		TM_GPIO_SetPinLow(GPIOD, GPIO_Pin_10);
+		Delayms(10);
 		motor1_flag = false;
 	}
 	else if(motor == MOTOR2 && motor2_flag)
@@ -84,6 +85,7 @@ void app_motor_stop(uint8_t motor)
 		TM_PWM_SetChannelMicros(&TIM3_Data, TM_PWM_Channel_1, 0);
 		TM_GPIO_SetPinLow(GPIOD, GPIO_Pin_11);
 		TM_GPIO_SetPinLow(GPIOD, GPIO_Pin_12);
+		Delayms(10);
 		motor2_flag = false;
 	}
 }
