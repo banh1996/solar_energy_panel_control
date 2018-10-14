@@ -26,6 +26,10 @@ void app_motor_init(uint16_t frequency)
 				 TM_GPIO_PuPd_NOPULL, 
 				 TM_GPIO_Speed_High);
 
+	TM_GPIO_SetPinLow(GPIOD, GPIO_Pin_9);
+	TM_GPIO_SetPinLow(GPIOD, GPIO_Pin_10);
+	TM_GPIO_SetPinLow(GPIOD, GPIO_Pin_11);
+	TM_GPIO_SetPinLow(GPIOD, GPIO_Pin_12);
 }
 
 void app_motor_start(uint8_t motor, uint16_t speed, bool isforward)
@@ -71,15 +75,15 @@ void app_motor_stop(uint8_t motor)
 	if(motor == MOTOR1 && motor1_flag)
 	{
 		TM_PWM_SetChannelMicros(&TIM2_Data, TM_PWM_Channel_1, 0);
+		TM_GPIO_SetPinLow(GPIOD, GPIO_Pin_9);
+		TM_GPIO_SetPinLow(GPIOD, GPIO_Pin_10);
 		motor1_flag = false;
 	}
 	else if(motor == MOTOR2 && motor2_flag)
 	{
 		TM_PWM_SetChannelMicros(&TIM3_Data, TM_PWM_Channel_1, 0);
+		TM_GPIO_SetPinLow(GPIOD, GPIO_Pin_11);
+		TM_GPIO_SetPinLow(GPIOD, GPIO_Pin_12);
 		motor2_flag = false;
 	}
-	TM_GPIO_SetPinLow(GPIOD, GPIO_Pin_9);
-	TM_GPIO_SetPinLow(GPIOD, GPIO_Pin_10);
-	TM_GPIO_SetPinLow(GPIOD, GPIO_Pin_11);
-	TM_GPIO_SetPinLow(GPIOD, GPIO_Pin_12);
 }
