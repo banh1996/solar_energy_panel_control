@@ -71,10 +71,12 @@ void app_motor_stop(uint8_t motor)
 	if(motor == MOTOR1 && motor1_flag)
 	{
 		TM_PWM_SetChannelMicros(&TIM2_Data, TM_PWM_Channel_1, 0);
+		motor1_flag = false;
 	}
 	else if(motor == MOTOR2 && motor2_flag)
 	{
 		TM_PWM_SetChannelMicros(&TIM3_Data, TM_PWM_Channel_1, 0);
+		motor2_flag = false;
 	}
 	TM_GPIO_SetPinLow(GPIOD, GPIO_Pin_9);
 	TM_GPIO_SetPinLow(GPIOD, GPIO_Pin_10);
