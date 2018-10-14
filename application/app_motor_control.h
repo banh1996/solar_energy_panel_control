@@ -18,8 +18,8 @@ void app_motor_init(uint16_t frequency);
  * params: motor: MOTOR1 - choose motor 1  
  *                MOTOR2 - choose motor 2
  *         speed: set time on value speed/frequency
- *         isforward: true - motor gyros forward
- *                    false - motor gyros reverse  
+ *         isforward: true - motor twirls forward
+ *                    false - motor twirls reverse  
 */
 void app_motor_start(uint8_t motor, uint16_t speed, bool isforward);
 
