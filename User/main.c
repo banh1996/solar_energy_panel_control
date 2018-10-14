@@ -27,7 +27,7 @@
 int main(void) {
 	TM_PWM_TIM_t TIM2_Data;
 	uint16_t position = 1000;
-	
+	uint16_t adc1 = 0;
 	/* Initialize system */
 	SystemInit();
 	
@@ -44,23 +44,29 @@ int main(void) {
 	/* Set channel 1 value, 1500us = servo at center position */
 	TM_PWM_SetChannelMicros(&TIM2_Data, TM_PWM_Channel_1, 1500);
 	
+	app_led_init();
+	app_photoresistor_init();
+	app_led_on(LED_BLUE);
 	/* Servo in position */
 	Delayms(1111);
 
 	while (1) 
-{
-		if (position == 1000) {
-			/* Change direction */
-			position = 2000;
-		} else {
-			/* Change direction */
-			position = 1000;
-		}
+	{
+		// if (position == 1000) 
+		// {
+		// 	/* Change direction */
+		// 	position = 2000;
+		// } else {
+		// 	/* Change direction */
+		// 	position = 1000;
+		// }
 
-		/* Set servo position */
-		TM_PWM_SetChannelMicros(&TIM2_Data, TM_PWM_Channel_1, position);
+		// /* Set servo position */
+		// TM_PWM_SetChannelMicros(&TIM2_Data, TM_PWM_Channel_1, position);
 
-		/* Set some delay for servo to set to correct position */
-		Delayms(1500);
+		// /* Set some delay for servo to set to correct position */
+		// Delayms(1500);
+		adc1 = app_photoresistor_read(ADC_Channel_0);
+		printf("adc1; %d\r\n",adc1);
 	}
 }

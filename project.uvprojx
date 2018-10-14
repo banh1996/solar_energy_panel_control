@@ -653,6 +653,9 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>::Compiler</GroupName>
+        </Group>
       </Groups>
     </Target>
     <Target>
@@ -1338,6 +1341,9 @@
               <FilePath>.\application\app_led_control.c</FilePath>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>::Compiler</GroupName>
         </Group>
       </Groups>
     </Target>
@@ -2025,6 +2031,9 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>::Compiler</GroupName>
+        </Group>
       </Groups>
     </Target>
     <Target>
@@ -2711,13 +2720,35 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>::Compiler</GroupName>
+        </Group>
       </Groups>
     </Target>
   </Targets>
 
   <RTE>
     <apis/>
-    <components/>
+    <components>
+      <component Cbundle="ARM Compiler" Cclass="Compiler" Cgroup="I/O" Csub="STDIN" Cvariant="ITM" Cvendor="Keil" Cversion="1.2.0" condition="ARMCC Cortex-M with ITM">
+        <package name="ARM_Compiler" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="Keil" version="1.6.0"/>
+        <targetInfos>
+          <targetInfo name="Nucleo-F401"/>
+          <targetInfo name="Nucleo-F411"/>
+          <targetInfo name="STM32F4-Discovery"/>
+          <targetInfo name="STM32F429-Discovery"/>
+        </targetInfos>
+      </component>
+      <component Cbundle="ARM Compiler" Cclass="Compiler" Cgroup="I/O" Csub="STDOUT" Cvariant="ITM" Cvendor="Keil" Cversion="1.2.0" condition="ARMCC Cortex-M with ITM">
+        <package name="ARM_Compiler" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="Keil" version="1.6.0"/>
+        <targetInfos>
+          <targetInfo name="Nucleo-F401"/>
+          <targetInfo name="Nucleo-F411"/>
+          <targetInfo name="STM32F4-Discovery"/>
+          <targetInfo name="STM32F429-Discovery"/>
+        </targetInfos>
+      </component>
+    </components>
     <files/>
   </RTE>
 
