@@ -17,7 +17,7 @@ void app_motor_init(uint16_t frequency)
 	TM_PWM_InitChannel(&TIM2_Data, TM_PWM_Channel_1, TM_PWM_PinsPack_2);//PA5
 	TM_PWM_InitChannel(&TIM3_Data, TM_PWM_Channel_1, TM_PWM_PinsPack_1);//PA6
 
-	//init in input to reverse motor, pin PD9, PD10, PD11, PD12
+	//init in output to reverse motor, pin PD9, PD10, PD11, PD12
 	//PD9 motor1 forward, PD10 motor1 reverse, PD11 motor2 forward, PD12 motor 2 reverse
 	TM_GPIO_Init(GPIOD,
 				 GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_11 | GPIO_Pin_12, 

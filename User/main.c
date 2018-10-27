@@ -23,10 +23,13 @@
 #include "app_motor_control.h"
 #include "app_photoresistor_sensor.h"
 #include "app_led_control.h"
-
+static uint16_t adc0 = 0;
+static uint16_t adc1 = 0;
+static uint16_t adc2 = 0;
+static uint16_t adc3 = 0;
 int main(void) 
 {
-	uint16_t adc1 = 0;
+	
 	/* Initialize system */
 	SystemInit();
 	
@@ -41,7 +44,10 @@ int main(void)
 
 	while (1) 
 	{
-		adc1 = app_photoresistor_read(ADC_Channel_0);
-		printf("adc1; %d\r\n",adc1);
+		adc0 = app_photoresistor_read(ADC_Channel_0);
+		adc1 = app_photoresistor_read(ADC_Channel_1);
+		adc2 = app_photoresistor_read(ADC_Channel_2);
+		adc3 = app_photoresistor_read(ADC_Channel_3);
+		Delayms(500);
 	}
 }
