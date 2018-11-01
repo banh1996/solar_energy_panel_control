@@ -23,6 +23,8 @@
 #include "app_motor_control.h"
 #include "app_photoresistor_sensor.h"
 #include "app_led_control.h"
+#include "app_gps_task.h"
+
 static uint16_t adc0 = 0;
 static uint16_t adc1 = 0;
 static uint16_t adc2 = 0;
@@ -40,8 +42,9 @@ int main(void)
 	app_photoresistor_init();
 	app_led_on(LED_BLUE);
 	app_motor_init(50);//50hz
+	app_gps_init();
 	Delayms(1111);
-
+	
 	while (1) 
 	{
 		adc0 = app_photoresistor_read(ADC_Channel_0);
