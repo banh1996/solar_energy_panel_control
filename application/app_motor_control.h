@@ -21,7 +21,7 @@ void app_motor_init(uint16_t frequency);
  *         isforward: true - motor twirls forward
  *                    false - motor twirls reverse  
 */
-void app_motor_start(uint8_t motor, uint16_t speed, bool isforward);
+void app_motor_start(uint8_t motor, uint16_t percent, bool isforward);
 
 /* brief: function for stop motor
  * params: motor: MOTOR1 - choose motor 1  

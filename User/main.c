@@ -30,6 +30,10 @@ static uint16_t adc1 = 0;
 static uint16_t adc2 = 0;
 static uint16_t adc3 = 0;
 static char str[10];
+static char test = 'q';
+static char temp = 'w';
+static char dau = 'a';
+static char cuoi = 'z';
 int main(void) 
 {
 	
@@ -44,18 +48,26 @@ int main(void)
 	app_led_on(LED_BLUE);
 	app_motor_init(50);//50hz
 	app_gps_init();
-	Delayms(1111);
 	
-	while (1) 
-	{
-		if(usart_get_str(str, 10))
-		{
-			usart_send_str(str,10);
-		}		
-		//adc0 = app_photoresistor_read(ADC_Channel_0);
-		//adc1 = app_photoresistor_read(ADC_Channel_1);
-		//adc2 = app_photoresistor_read(ADC_Channel_2);
-		//adc3 = app_photoresistor_read(ADC_Channel_3);
-		Delayms(500);
-	}
+	//testt();
+	Delayms(1111);
+	// while (1) 
+	// {
+	// 	//if(usart_get_str(&test, 1))
+	// 	//{
+	// 	//	usart_send_str(&test,1);
+	// 	//}		
+	// 	if(usart_get_str(str, 10))
+	// 	{
+	// 		dau = str[0];
+	// 		cuoi = str[9];
+	// 		usart_send_str(str,10);
+	// 	}
+		
+	// 	//adc0 = app_photoresistor_read(ADC_Channel_0);
+	// 	//adc1 = app_photoresistor_read(ADC_Channel_1);
+	// 	//adc2 = app_photoresistor_read(ADC_Channel_2);
+	// 	//adc3 = app_photoresistor_read(ADC_Channel_3);
+	// 	Delayms(500);
+	// }
 }
