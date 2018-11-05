@@ -3,6 +3,7 @@
 static bool red_flag   = false;
 static bool green_flag = false;
 static bool blue_flag  = false;
+static bool orange_flag  = false;
 static bool init_flag  = false;
 
 void app_led_init(void)
@@ -33,6 +34,11 @@ void app_led_on(uint16_t pin)
 			TM_DISCO_LedOn(pin);
 			blue_flag = true;
 		}
+		if(pin == LED_ORANGE && !orange_flag)
+		{
+			TM_DISCO_LedOn(pin);
+			blue_flag = true;
+		}
 	}
 }
 
@@ -51,6 +57,11 @@ void app_led_off(uint16_t pin)
 			green_flag = false;
 		}
 		if(pin == LED_BLUE && blue_flag)
+		{
+			TM_DISCO_LedOff(pin);
+			blue_flag = false;
+		}
+		if(pin == LED_ORANGE && orange_flag)
 		{
 			TM_DISCO_LedOff(pin);
 			blue_flag = false;
@@ -76,6 +87,11 @@ void app_led_toggle(uint16_t pin)
 		{
 			TM_DISCO_LedToggle(pin);
 			blue_flag = !blue_flag;
+		}
+		if(pin == LED_ORANGE)
+		{
+			TM_DISCO_LedToggle(pin);
+			orange_flag = !orange_flag;
 		}
 	}
 }

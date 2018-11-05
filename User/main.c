@@ -43,12 +43,15 @@ int main(void)
 	/* Initialize delay functions */
 	TM_DELAY_Init();
 	
-	app_led_init();
-	app_photoresistor_init();
-	app_led_on(LED_BLUE);
-	app_motor_init(50);//50hz
+	//app_led_init();
+	//app_photoresistor_init();
+	//app_led_on(LED_BLUE);
+	app_motor_init(10);//10hz
 	app_gps_init();
-	
+	while(1)
+	{
+	app_gps_request_and_get_reply("AT", 2, "OK", 2);
+	}
 	//testt();
 	Delayms(1111);
 	// while (1) 

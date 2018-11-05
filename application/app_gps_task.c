@@ -5,12 +5,13 @@
 static TM_DELAY_Timer_t* timeout_timer;
 
 // init AT command here
-static char OPEN_GPS_AT[10] = "AT+GPS=1\r\n";
+static char OPEN_GPS_AT[8] = "AT+GPS=1";
 static char CLOSE_GPS_AT[8] = "AT+GPS=0";
 static char OPEN_AGPS_AT[9] = "AT+AGPS=1";
 static char CLOSE_AGPS_AT[9] = "AT+AGPS=0";
 static char receive_data[100] = "receiver\n";
-static bool	timeout_flag = false;
+static volatile bool	timeout_flag = false;
+
 /* Called when transfer is completed for specific stream */
 static void TM_DMA_TransferCompleteHandler(DMA_Stream_TypeDef* DMA_Stream) {
 	/* Check if interrupt is for correct stream */
@@ -69,33 +70,39 @@ uint16_t usart_send_str(char *str, uint16_t len)
 
 uint16_t usart_get_str(char *str, uint16_t len)
 {
-    return TM_USART_Gets(USART2, str, len)
+	return TM_USART_Gets(USART2, str, len);
 }
 
 bool app_gps_request_and_get_reply(char *str_request, uint16_t len_request,
-							 	   char *str_reply, uint16_t len_reply)
+							 	   char *str_reply_expect, uint16_t len_reply_expect)
 {
-	char receive_data_temp[100] = "\r\n";
+	char receive_data_temp[100];
 	timeout_flag = false;
 	TM_DELAY_TimerStart(timeout_timer);
+
+	usart_send_str(str_request, len_request);
 	do
-    {
-		usart_send_str(str_request, len_request);
-		usart_get_str(receive_data_temp, len_reply);
+	{
+		if (usart_get_str(receive_data_temp, sizeof(receive_data_temp)) == len_reply_expect) 
+	 	{
+	 		usart_send_str(receive_data_temp, len_reply_expect);
+	 	}
 	}
-	while(!memcmp(receive_data_temp, str_reply, len_reply) && !timeout_flag);
+	while(memcmp(receive_data_temp, str_reply_expect, len_reply_expect) && !timeout_flag);
+	
 	TM_DELAY_TimerStop(timeout_timer);
+
 	return !timeout_flag;
 }
 
 void app_gps_init(void)
 {
 	/* Timer has reload value each 5s, enabled auto reload feature*/
-	timeout_timer = TM_DELAY_TimerCreate(5000, 1, 0, timeout_handler, NULL);
+	timeout_timer = TM_DELAY_TimerCreate(2500, 1, 0, timeout_handler, NULL);
 	
 	/* Init USART2 on pins TX = PA2, RX = PA3 */
 	/* This pins are used on Nucleo boards for USB to UART via ST-Link */
-	TM_USART_Init(USART2, TM_USART_PinsPack_1, 115200);
+	TM_USART_Init(USART2, TM_USART_PinsPack_1, 9600);
 	
 	/* Say string without DMA */
 	TM_USART_Puts(USART2, "Hello via USART2 without DMA\n");
@@ -107,20 +114,20 @@ void app_gps_init(void)
 	/* Enable USART DMA interrupts */
 	TM_USART_DMA_EnableInterrupts(USART2);
 
-	while (1)
-	{
-		/* If any string arrived over USART */
-		/* Expecting "\n" at the end of string from USART terminal or any other source */
-		if (TM_USART_Gets(USART2, USART_Buffer, sizeof(USART_Buffer))) 
-		{
-			/* Send it back over DMA */
-			TM_USART_DMA_Send(USART2, (uint8_t *)USART_Buffer, strlen(USART_Buffer));
+	// while (1)
+	// {
+	// 	/* If any string arrived over USART */
+	// 	/* Expecting "\n" at the end of string from USART terminal or any other source */
+	// 	if (TM_USART_Gets(USART2, receive_data, sizeof(receive_data))) 
+	// 	{
+	// 		/* Send it back over DMA */
+	// 		TM_USART_DMA_Send(USART2, (uint8_t *)receive_data, strlen(receive_data));
 
-			/* Wait till DMA works */
-			/* You can do other stuff here instead of waiting for DMA to end */
-			while (TM_USART_DMA_Sending(USART2));
-		}
-	}
+	// 		/* Wait till DMA works */
+	// 		/* You can do other stuff here instead of waiting for DMA to end */
+	// 		while (TM_USART_DMA_Sending(USART2));
+	// 	}
+	// }
 }
 
 void app_gps_get_value(char *str, uint16_t len)
