@@ -77,6 +77,7 @@ bool app_gps_request_and_get_reply(char *str_request, uint16_t len_request,
 							 	   char *str_reply_expect, uint16_t len_reply_expect)
 {
 	char receive_data_temp[100];
+	memset(receive_data_temp, 0, 100);
 	timeout_flag = false;
 	TM_DELAY_TimerStart(timeout_timer);
 
@@ -89,7 +90,7 @@ bool app_gps_request_and_get_reply(char *str_request, uint16_t len_request,
 	 	}
 	}
 	while(memcmp(receive_data_temp, str_reply_expect, len_reply_expect) && !timeout_flag);
-	
+	TM_USART_ClearBuffer(USART2);
 	TM_DELAY_TimerStop(timeout_timer);
 
 	return !timeout_flag;

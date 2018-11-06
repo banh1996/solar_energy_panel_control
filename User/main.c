@@ -48,11 +48,14 @@ int main(void)
 	//app_led_on(LED_BLUE);
 	app_motor_init(10);//10hz
 	app_gps_init();
-	while(1)
-	{
-	app_gps_request_and_get_reply("AT", 2, "OK", 2);
-	}
-	//testt();
+	while(!app_gps_request_and_get_reply("AT", 2, "OK", 2));
+	while(!app_gps_request_and_get_reply("AT+AGPS=1", 9, "OK", 2));
+	// while(1)
+	// {
+	// 	app_gps_request_and_get_reply("AT+AGPS=1", 2, "OK", 2);
+	// }
+
+
 	Delayms(1111);
 	// while (1) 
 	// {
