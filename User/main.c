@@ -30,10 +30,7 @@ static uint16_t adc1 = 0;
 static uint16_t adc2 = 0;
 static uint16_t adc3 = 0;
 static char str[10];
-static char test = 'q';
-static char temp = 'w';
-static char dau = 'a';
-static char cuoi = 'z';
+
 int main(void) 
 {
 	
@@ -44,7 +41,7 @@ int main(void)
 	TM_DELAY_Init();
 	
 	//app_led_init();
-	//app_photoresistor_init();
+	app_photoresistor_init();
 	//app_led_on(LED_BLUE);
 	app_motor_init(10);//10hz
 	app_gps_init();
@@ -55,25 +52,13 @@ int main(void)
 	// 	app_gps_request_and_get_reply("AT+AGPS=1", 2, "OK", 2);
 	// }
 
-
 	Delayms(1111);
-	// while (1) 
-	// {
-	// 	//if(usart_get_str(&test, 1))
-	// 	//{
-	// 	//	usart_send_str(&test,1);
-	// 	//}		
-	// 	if(usart_get_str(str, 10))
-	// 	{
-	// 		dau = str[0];
-	// 		cuoi = str[9];
-	// 		usart_send_str(str,10);
-	// 	}
-		
-	// 	//adc0 = app_photoresistor_read(ADC_Channel_0);
-	// 	//adc1 = app_photoresistor_read(ADC_Channel_1);
-	// 	//adc2 = app_photoresistor_read(ADC_Channel_2);
-	// 	//adc3 = app_photoresistor_read(ADC_Channel_3);
-	// 	Delayms(500);
-	// }
+	 while (1) 
+	 {
+	 	adc0 = app_photoresistor_read(ADC_Channel_10);//PC0
+	 	adc1 = app_photoresistor_read(ADC_Channel_11);//PC1
+	 	adc2 = app_photoresistor_read(ADC_Channel_12);//PC2
+	 	adc3 = app_photoresistor_read(ADC_Channel_13);//PC3
+	 	Delayms(100);
+	 }
 }

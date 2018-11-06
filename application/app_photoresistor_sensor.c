@@ -2,7 +2,7 @@
 
 void app_photoresistor_init(void)
 {
-	/* Initialize ADC3 on channel 0, this is pin PA10-PA11-PA12-PA13, Resolution 12bit */
+	/* Initialize ADC3 on channel 0, this is pin PC0-PC1-PC2-PC3, Resolution 12bit */
 	TM_ADC_Init(ADC3, ADC_Channel_10);
 	TM_ADC_Init(ADC3, ADC_Channel_11);
 	TM_ADC_Init(ADC3, ADC_Channel_12);
