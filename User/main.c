@@ -29,7 +29,8 @@ static uint16_t adc0 = 0;
 static uint16_t adc1 = 0;
 static uint16_t adc2 = 0;
 static uint16_t adc3 = 0;
-static char str[10];
+static uint16_t num = 0;
+static char str[100];
 
 int main(void) 
 {
@@ -44,9 +45,13 @@ int main(void)
 	app_photoresistor_init();
 	//app_led_on(LED_BLUE);
 	app_motor_init(10);//10hz
-	app_gps_init();
-	while(!app_gps_request_and_get_reply("AT", 2, "OK", 2));
-	while(!app_gps_request_and_get_reply("AT+AGPS=1", 9, "OK", 2));
+	
+	
+	app_gps_init(9600);
+	while(!app_gps_request_and_get_reply("AT\r\n", 4, "OK", 2));
+	while(!app_gps_request_and_get_reply("AT+GPS=1\r\n", 10, "OK", 2));
+	//while(!app_gps_request_and_get_reply("AT+GPSRD=1\r\n", 12, "OK", 2));
+	num = app_gps_get_value(str);
 	// while(1)
 	// {
 	// 	app_gps_request_and_get_reply("AT+AGPS=1", 2, "OK", 2);
