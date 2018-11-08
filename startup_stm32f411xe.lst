@@ -767,11 +767,10 @@ Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\targets\nucleo_f411_ext_8mhz\startup_stm32f411xe.d -o.\target
 s\nucleo_f411_ext_8mhz\startup_stm32f411xe.o -I.\RTE\_Nucleo-F411_ext_8MHz_osci
 llator -IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\
-STM32F4xx\Include -IC:\Keil_v5\ARM\CMSIS\Include --predefine="__EVAL SETA 1" --
-predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 526" --predef
-ine="STM32F411xE SETA 1" --list=.\startup_stm32f411xe.lst ..\00-STM32F4xx_STAND
-ARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_s
-tm32f411xe.s
+STM32F4xx\Include -IC:\Keil_v5\ARM\CMSIS\Include --predefine="__MICROLIB SETA 1
+" --predefine="__UVISION_VERSION SETA 526" --predefine="STM32F411xE SETA 1" --l
+ist=.\startup_stm32f411xe.lst ..\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS
+\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f411xe.s
 
 
 
@@ -1865,4 +1864,4 @@ ice\ST\STM32F4xx\Source\Templates\arm\startup_stm32f411xe.s
 ice\ST\STM32F4xx\Source\Templates\arm\startup_stm32f411xe.s
 Comment: __main used once
 2 symbols
-421 symbols in table
+420 symbols in table

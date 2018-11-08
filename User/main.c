@@ -47,15 +47,13 @@ int main(void)
 	app_motor_init(10);//10hz
 	
 	
-	app_gps_init(9600);
-	while(!app_gps_request_and_get_reply("AT\r\n", 4, "OK", 2));
-	while(!app_gps_request_and_get_reply("AT+GPS=1\r\n", 10, "OK", 2));
-	//while(!app_gps_request_and_get_reply("AT+GPSRD=1\r\n", 12, "OK", 2));
-	num = app_gps_get_value(str);
-	// while(1)
-	// {
-	// 	app_gps_request_and_get_reply("AT+AGPS=1", 2, "OK", 2);
-	// }
+	app_gps_init(115200);
+	
+	app_gps_get_value(str);
+	 while(1)
+	 {
+			app_gps_get_value(str);
+	 }
 
 	Delayms(1111);
 	 while (1) 
