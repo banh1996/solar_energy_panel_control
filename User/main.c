@@ -47,21 +47,27 @@ int main(void)
 	app_motor_init(10);//10hz
 	
 	
-	app_gps_init(115200);
+//	app_gps_init(115200);
 	
-	app_gps_get_value(str);
-	 while(1)
-	 {
-			app_gps_get_value(str);
-	 }
+//	app_gps_get_value(str);
+//	 while(1)
+//	 {
+//			app_gps_get_value(str);
+//	 }
 
 	Delayms(1111);
 	 while (1) 
 	 {
-	 	adc0 = app_photoresistor_read(ADC_Channel_10);//PC0
-	 	adc1 = app_photoresistor_read(ADC_Channel_11);//PC1
-	 	adc2 = app_photoresistor_read(ADC_Channel_12);//PC2
-	 	adc3 = app_photoresistor_read(ADC_Channel_13);//PC3
-	 	Delayms(100);
+//	 	adc0 = app_photoresistor_read(ADC_Channel_10);//PC0
+//	 	adc1 = app_photoresistor_read(ADC_Channel_11);//PC1
+//	 	adc2 = app_photoresistor_read(ADC_Channel_12);//PC2
+//	 	adc3 = app_photoresistor_read(ADC_Channel_13);//PC3
+		 
+		app_motor_control_servo(app_photoresistor_read(ADC_Channel_10),
+														 app_photoresistor_read(ADC_Channel_11),
+														 app_photoresistor_read(ADC_Channel_12),
+														 app_photoresistor_read(ADC_Channel_13));
+	 	//app_motor_control_servo(adc0, adc1, adc2, adc3);
+		 Delayms(20);
 	 }
 }

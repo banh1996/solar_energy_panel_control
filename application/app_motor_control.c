@@ -2,11 +2,16 @@
 
 static bool 		motor1_flag = false;
 static bool 		motor2_flag = false;
-static bool 		isforward_motor1 = false;
-static bool 		isforward_motor2 = false;
 
 static TM_PWM_TIM_t TIM2_Data;
 static TM_PWM_TIM_t TIM3_Data;
+
+static uint16_t isforward_motor1 = 0;
+static uint16_t	isforward_motor2 = 0;
+static uint16_t adc_top = 0;
+static uint16_t adc_bottom = 0;
+static uint16_t adc_left = 0;
+static uint16_t adc_right = 0;
 
 void app_motor_init(uint16_t frequency)
 {
@@ -27,7 +32,14 @@ void app_motor_start(uint8_t motor, uint16_t percent, bool isforward)
 {
 	if(motor == MOTOR1 && !motor1_flag)
 	{
-		isforward_motor1 = isforward;	
+		if(isforward)
+		{
+			isforward_motor1 = 1;	
+		}
+		else
+		{
+			isforward_motor1 = 2;
+		}
 		if(isforward == true)
 		{
 			TM_GPIO_Init(GPIOA, GPIO_Pin_5, TM_GPIO_Mode_OUT, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_High);
@@ -48,7 +60,14 @@ void app_motor_start(uint8_t motor, uint16_t percent, bool isforward)
 	}
 	else if(motor == MOTOR2 && !motor2_flag)
 	{
-		isforward_motor2 = isforward;
+		if(isforward)
+		{
+			isforward_motor2 = 1;	
+		}
+		else
+		{
+			isforward_motor2 = 2;
+		}
 		if(isforward == true)
 		{
 			TM_GPIO_Init(GPIOA, GPIO_Pin_7, TM_GPIO_Mode_OUT, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_High);
@@ -73,35 +92,88 @@ void app_motor_stop(uint8_t motor)
 {
 	if(motor == MOTOR1 && motor1_flag)
 	{
-		if(isforward_motor1 == true)
+		if(isforward_motor1 == 1)
 		{
 			TM_PWM_SetChannelPercent(&TIM2_Data, TM_PWM_Channel_2, 0);//PA1
 			TM_GPIO_Init(GPIOA, GPIO_Pin_1, TM_GPIO_Mode_OUT, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_High);
 			TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_1);//PA1
+			isforward_motor1 = false;
 		}
-		else
+		else if(isforward_motor1 == 2)
 		{
 			TM_PWM_SetChannelPercent(&TIM2_Data, TM_PWM_Channel_1, 0);//PA5
 			TM_GPIO_Init(GPIOA, GPIO_Pin_5, TM_GPIO_Mode_OUT, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_High);
 			TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_5);//PA5
 		}
+		isforward_motor1 = 0;
 		motor1_flag = false;
 	}
 	else if(motor == MOTOR2 && motor2_flag)
 	{
-		if(isforward_motor2 == true)
+		if(isforward_motor2 == 1)
 		{
 			TM_PWM_SetChannelPercent(&TIM3_Data, TM_PWM_Channel_1, 0);//PA6
 			TM_GPIO_Init(GPIOA, GPIO_Pin_6, TM_GPIO_Mode_OUT, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_High);
 			TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_6);//PA6
+			isforward_motor2 = false;
 		}
-		else
+		else if(isforward_motor2 == 2)
 		{
 			TM_PWM_SetChannelPercent(&TIM3_Data, TM_PWM_Channel_2, 0);//PA7
 			TM_GPIO_Init(GPIOA, GPIO_Pin_7, TM_GPIO_Mode_OUT, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_High);
 			TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_7);//PA7
 		}
+		isforward_motor2 = 0;
 		motor2_flag = false;
 	}
 	Delayms(10);
+}
+
+void app_motor_control_servo(uint16_t adc0,
+														 uint16_t adc1,
+														 uint16_t adc2,
+														 uint16_t adc3)
+{
+	adc_top			= adc0/2 + adc3/2;
+	adc_bottom 	= adc1/2 + adc2/2;
+	adc_left 		= adc1/2 + adc3/2;
+	adc_right 	= adc0/2 + adc2/2;
+	
+	if(abs(adc_top - adc_bottom) < STOP_THRESHOLD)
+	{
+		app_motor_stop(MOTOR1);
+	}
+	else
+	{
+		if(adc_top > adc_bottom)
+		{
+			if(!motor1_flag)
+			{
+				if(isforward_motor1 == 1)
+				{
+					app_motor_stop(MOTOR1);
+					app_motor_start(MOTOR1, SPEED_PERCENT, false);
+				}
+				else if(isforward_motor1 == 0)
+				{
+					app_motor_start(MOTOR1, SPEED_PERCENT, false);
+				}
+			}
+		}
+		else
+		{
+			if(!motor1_flag)
+			{
+				if(isforward_motor1 == 2)
+				{
+					app_motor_stop(MOTOR1);
+					app_motor_start(MOTOR1, SPEED_PERCENT, true);
+				}
+				else if(isforward_motor1 == 0)
+				{
+					app_motor_start(MOTOR1, SPEED_PERCENT, true);
+				}
+			}
+		}
+	}
 }
