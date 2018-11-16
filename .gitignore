@@ -1,6 +1,7 @@
 /*file output
 */
-
+*.uvguix.*
+*.uvoptx
 *.o
 *.crf
 *.hex

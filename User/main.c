@@ -68,6 +68,6 @@ int main(void)
 														 app_photoresistor_read(ADC_Channel_12),
 														 app_photoresistor_read(ADC_Channel_13));
 	 	//app_motor_control_servo(adc0, adc1, adc2, adc3);
-		 Delayms(20);
+		 Delayms(10);
 	 }
 }
