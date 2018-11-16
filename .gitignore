@@ -1,6 +1,4 @@
-/*file output
-*/
-*.uvoptx
+
 *.o
 *.crf
 *.hex
@@ -12,6 +10,3 @@
 *.dep
 *.axf
 project.uvguix.*
-
-/*file path
-*/
