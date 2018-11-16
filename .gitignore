@@ -1,6 +1,5 @@
 /*file output
 */
-*.uvguix.*
 *.uvoptx
 *.o
 *.crf
@@ -12,7 +11,7 @@
 *.htm
 *.dep
 *.axf
-
+project.uvguix.*
 
 /*file path
 */
