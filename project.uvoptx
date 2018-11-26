@@ -1486,6 +1486,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>adc_bottom,0x0A</ItemText>
         </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>isforward_motor1</ItemText>
+        </Ww>
       </WatchWindow1>
       <Tracepoint>
         <THDelay>0</THDelay>

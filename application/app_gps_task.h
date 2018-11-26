@@ -2,6 +2,7 @@
 #define __GPS_TASK
 
 #include <stdio.h>
+#include <stdint.h>
 #include <stdbool.h>
 #include "string.h"
 #include "tm_stm32f4_delay.h"
@@ -28,5 +29,5 @@ void app_gps_get_value(char *str);
 bool app_gps_request_and_get_reply(char *str_request,
 							 	   char *str_reply_expect, uint16_t len_reply_expect);
 
-
+void app_gprs_send_data(void);
 #endif
