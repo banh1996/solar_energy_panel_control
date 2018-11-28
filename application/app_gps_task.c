@@ -106,8 +106,17 @@ bool app_gps_request_and_get_reply(char *str_request,
 void app_gps_init(uint32_t baudrate_usart)
 {
 	/* Timer has reload value each 5s, enabled auto reload feature*/
-	timeout_timer = TM_DELAY_TimerCreate(7000, 1, 0, timeout_handler, NULL);
-	
+	timeout_timer = TM_DELAY_TimerCreate(3000, 1, 0, timeout_handler, NULL);
+
+	TM_GPIO_Init(GPIOB, 
+				 GPIO_Pin_5, 
+				 TM_GPIO_Mode_OUT, 
+				 TM_GPIO_OType_PP, 
+				 TM_GPIO_PuPd_NOPULL, 
+				 TM_GPIO_Speed_High);
+
+	TM_GPIO_SetPinLow(GPIOB, GPIO_Pin_5);//PB5
+
 	/* Init USART2 on pins TX = PA2, RX = PA3 */
 	/* This pins are used on Nucleo boards for USB to UART via ST-Link */
 	TM_USART_Init(USART2, TM_USART_PinsPack_1, baudrate_usart);
@@ -122,14 +131,19 @@ void app_gps_init(uint32_t baudrate_usart)
 	TM_USART_Puts(USART1, "test uart 1\r\n");
 	
 	//while(!app_gps_request_and_get_reply("", "+CREG: 1\r\n", 10));
-	
+	TM_GPIO_SetPinHigh(GPIOB, GPIO_Pin_5);//PB5
+
 	while(!app_gps_request_and_get_reply("AT\r\n", "OK", 2));
 	while(!app_gps_request_and_get_reply("AT+GPS=1\r\n", "OK", 2));
 	while(!app_gps_request_and_get_reply("AT+GPSRD=1\r\n", "OK", 2));
 	
 	char temp_str[200];
 	sprintf(temp_str, "AT+CIPSTART=\"TCP\",\"%s\",3000\r\n", IP_SERVER);
-	while(!app_gps_request_and_get_reply(temp_str, "OK", 2));
+	
+	while(!app_gps_request_and_get_reply(temp_str, "OK", 2))
+	{
+		Delayms(6900);
+	}
 }
 
 void app_gps_get_value(char *str)
@@ -158,9 +172,9 @@ void app_gprs_send_data(void)
 {
 	if(gb_gps_data_ready == true)
 	{
-		while(!app_gps_request_and_get_reply("AT+CIPSEND\r\n", ">", 1));
+		usart_send_str("AT+CIPSEND\r\n");
 		char temp_str[200];
-		
+		Delayms(4000);
 		usart_send_str("POST /api_check_post HTTP/1.1\r\n");
 		sprintf(temp_str, "Host: %s:3000\r\n", IP_SERVER);
 		usart_send_str(temp_str);
@@ -178,7 +192,7 @@ void app_gprs_send_data(void)
 		usart_send_str("Accept-Language: vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5\r\n");
 		usart_send_str("Cookie: user_sid=s%3AfH8z6KfjyKk_hyG44jeKUpuEL4YFuXvr.dPaiKGI%2FiGL6ZS78yx%2F%2B9OhfuoELaxChNZ%2FKjsVSS2o; io=juD-GQgrjeUvVPJdAAAB\r\n\r\n");
 		sprintf(&gps_data[strlen(gps_data)], "%c", 0x1A);
-		app_gps_request_and_get_reply(gps_data,"ok",2);
+		while(!app_gps_request_and_get_reply(gps_data,"ok",2));
 		memset(gps_data, 0, sizeof(gps_data));
 		gb_gps_data_ready = false;
   }
