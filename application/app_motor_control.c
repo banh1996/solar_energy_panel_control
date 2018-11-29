@@ -134,6 +134,11 @@ void app_motor_control_servo(uint16_t adc0,
 														 uint16_t adc2,
 														 uint16_t adc3)
 {
+	if(adc2 < 3500)
+	{
+		adc2 += 200;
+	}
+	
 	adc_top			= adc0/2 + adc3/2;
 	adc_bottom 	= adc1/2 + adc2/2;
 	adc_left 		= adc1/2 + adc3/2;
@@ -172,6 +177,45 @@ void app_motor_control_servo(uint16_t adc0,
 				else if(isforward_motor1 == 0)
 				{
 					app_motor_start(MOTOR1, SPEED_PERCENT, true);
+				}
+			}
+		}
+	}
+	
+	
+	if(abs(adc_left - adc_right) < STOP_THRESHOLD)
+	{
+		app_motor_stop(MOTOR2);
+	}
+	else
+	{
+		if(adc_left > adc_right)
+		{
+			if(!motor2_flag)
+			{
+				if(isforward_motor2 == 1)
+				{
+					app_motor_stop(MOTOR2);
+					app_motor_start(MOTOR2, SPEED_PERCENT, false);
+				}
+				else if(isforward_motor2 == 0)
+				{
+					app_motor_start(MOTOR2, SPEED_PERCENT, false);
+				}
+			}
+		}
+		else
+		{
+			if(!motor2_flag)
+			{
+				if(isforward_motor2 == 2)
+				{
+					app_motor_stop(MOTOR2);
+					app_motor_start(MOTOR2, SPEED_PERCENT, true);
+				}
+				else if(isforward_motor2 == 0)
+				{
+					app_motor_start(MOTOR2, SPEED_PERCENT, true);
 				}
 			}
 		}

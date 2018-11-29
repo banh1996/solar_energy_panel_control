@@ -105,7 +105,7 @@ bool app_gps_request_and_get_reply(char *str_request,
 
 void app_gps_init(uint32_t baudrate_usart)
 {
-	/* Timer has reload value each 5s, enabled auto reload feature*/
+	/* Timer has reload value each 7s, enabled auto reload feature*/
 	timeout_timer = TM_DELAY_TimerCreate(7000, 1, 0, timeout_handler, NULL);
 	
 	/* Init USART2 on pins TX = PA2, RX = PA3 */
@@ -128,6 +128,7 @@ void app_gps_init(uint32_t baudrate_usart)
 	while(!app_gps_request_and_get_reply("AT+GPSRD=1\r\n", "OK", 2));
 	
 	char temp_str[200];
+	//AT+CIPSTART="TCP","184.106.153.149",80$0D$0A
 	sprintf(temp_str, "AT+CIPSTART=\"TCP\",\"%s\",3000\r\n", IP_SERVER);
 	while(!app_gps_request_and_get_reply(temp_str, "OK", 2));
 }
@@ -158,8 +159,12 @@ void app_gprs_send_data(void)
 {
 	if(gb_gps_data_ready == true)
 	{
-		while(!app_gps_request_and_get_reply("AT+CIPSEND\r\n", ">", 1));
+		//while(!app_gps_request_and_get_reply("AT+CIPSEND\r\n", ">", 1));
 		char temp_str[200];
+		
+		usart_send_str("AT+CIPSEND\r\n");
+		
+		Delayms(3000);		
 		
 		usart_send_str("POST /api_check_post HTTP/1.1\r\n");
 		sprintf(temp_str, "Host: %s:3000\r\n", IP_SERVER);
@@ -181,5 +186,6 @@ void app_gprs_send_data(void)
 		app_gps_request_and_get_reply(gps_data,"ok",2);
 		memset(gps_data, 0, sizeof(gps_data));
 		gb_gps_data_ready = false;
+
   }
 }
