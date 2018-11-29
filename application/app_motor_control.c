@@ -136,7 +136,12 @@ void app_motor_control_servo(uint16_t adc0,
 {
 	if(adc2 < 3500)
 	{
-		adc2 += 200;
+		adc2 = adc2 + 250;
+	}
+	
+	if(adc0 > 1000)
+	{
+		adc0 = adc0 - 100;
 	}
 	
 	adc_top			= adc0/2 + adc3/2;
