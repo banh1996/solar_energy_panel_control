@@ -101,7 +101,7 @@ bool app_gps_request_and_get_reply(char *str_request,
 void app_gps_init(uint32_t baudrate_usart)
 {
 	/* Timer has reload value each 5s, enabled auto reload feature*/
-	timeout_timer = TM_DELAY_TimerCreate(3000, 1, 0, timeout_handler, NULL);
+	timeout_timer = TM_DELAY_TimerCreate(5000, 1, 0, timeout_handler, NULL);
 	
 	/* Init USART2 on pins TX = PA2, RX = PA3 */
 	/* This pins are used on Nucleo boards for USB to UART via ST-Link */

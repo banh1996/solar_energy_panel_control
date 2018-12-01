@@ -152,11 +152,11 @@ void app_motor_control_servo(uint16_t adc0,
 				if(isforward_motor1 == 1)
 				{
 					app_motor_stop(MOTOR1);
-					app_motor_start(MOTOR1, SPEED_PERCENT, false);
+					app_motor_start(MOTOR1, SPEED_PERCENT_1, false);
 				}
 				else if(isforward_motor1 == 0)
 				{
-					app_motor_start(MOTOR1, SPEED_PERCENT, false);
+					app_motor_start(MOTOR1, SPEED_PERCENT_1, false);
 				}
 			}
 		}
@@ -167,11 +167,49 @@ void app_motor_control_servo(uint16_t adc0,
 				if(isforward_motor1 == 2)
 				{
 					app_motor_stop(MOTOR1);
-					app_motor_start(MOTOR1, SPEED_PERCENT, true);
+					app_motor_start(MOTOR1, SPEED_PERCENT_1, true);
 				}
 				else if(isforward_motor1 == 0)
 				{
-					app_motor_start(MOTOR1, SPEED_PERCENT, true);
+					app_motor_start(MOTOR1, SPEED_PERCENT_1, true);
+				}
+			}
+		}
+	}
+
+	if(abs(adc_right - adc_left) < STOP_THRESHOLD)
+	{
+		app_motor_stop(MOTOR2);
+	}
+	else
+	{
+		if(adc_left < adc_right)
+		{
+			if(!motor2_flag)
+			{
+				if(isforward_motor2 == 1)
+				{
+					app_motor_stop(MOTOR2);
+					app_motor_start(MOTOR2, SPEED_PERCENT_2, false);
+				}
+				else if(isforward_motor2 == 0)
+				{
+					app_motor_start(MOTOR2, SPEED_PERCENT_2, false);
+				}
+			}
+		}
+		else
+		{
+			if(!motor2_flag)
+			{
+				if(isforward_motor2 == 2)
+				{
+					app_motor_stop(MOTOR2);
+					app_motor_start(MOTOR2, SPEED_PERCENT_2, true);
+				}
+				else if(isforward_motor2 == 0)
+				{
+					app_motor_start(MOTOR2, SPEED_PERCENT_2, true);
 				}
 			}
 		}
