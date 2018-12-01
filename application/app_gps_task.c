@@ -13,44 +13,44 @@ static volatile bool	timeout_flag = false;
 /* Called when transfer is completed for specific stream */
 static void TM_DMA_TransferCompleteHandler(DMA_Stream_TypeDef* DMA_Stream) {
 	/* Check if interrupt is for correct stream */
-	if (DMA_Stream == TM_USART_DMA_GetStream(USART2)) {
-		//TM_USART_Puts(USART2, "Stream has finished with transfer\n");
+	if (DMA_Stream == TM_USART_DMA_GetStream(USART1)) {
+		//TM_USART_Puts(USART1, "Stream has finished with transfer\n");
 	}
 }
 
 /* Called when half transfer is completed for specific stream */
 static void TM_DMA_HalfTransferCompleteHandler(DMA_Stream_TypeDef* DMA_Stream) {
 	/* Check if interrupt is for correct stream */
-	if (DMA_Stream == TM_USART_DMA_GetStream(USART2)) {
+	if (DMA_Stream == TM_USART_DMA_GetStream(USART1)) {
 		/* Do stuff here */
-		//TM_USART_Puts(USART2, "Stream has finished with half transfer\n");
+		//TM_USART_Puts(USART1, "Stream has finished with half transfer\n");
 	}
 }
 
 /* Called when transfer error occurs for specific stream */
 static void TM_DMA_TransferErrorHandler(DMA_Stream_TypeDef* DMA_Stream) {
 	/* Check if interrupt is for correct stream */
-	if (DMA_Stream == TM_USART_DMA_GetStream(USART2)) {
+	if (DMA_Stream == TM_USART_DMA_GetStream(USART1)) {
 		/* Do stuff here */
-		//TM_USART_Puts(USART2, "Stream transfer error occured\n");
+		//TM_USART_Puts(USART1, "Stream transfer error occured\n");
 	}
 }
 
 /* Called when direct mode error occurs for specific stream */
 static void TM_DMA_DirectModeErrorHandler(DMA_Stream_TypeDef* DMA_Stream) {
 	/* Check if interrupt is for correct stream */
-	if (DMA_Stream == TM_USART_DMA_GetStream(USART2)) {
+	if (DMA_Stream == TM_USART_DMA_GetStream(USART1)) {
 		/* Do stuff here */
-		//TM_USART_Puts(USART2, "Stream direct mode error occured\n");
+		//TM_USART_Puts(USART1, "Stream direct mode error occured\n");
 	}
 }
 
 /* Called on FIFO error */
 static void TM_DMA_FIFOErrorHandler(DMA_Stream_TypeDef* DMA_Stream) {
 	/* Check if interrupt is for correct stream */
-	if (DMA_Stream == TM_USART_DMA_GetStream(USART2)) {
+	if (DMA_Stream == TM_USART_DMA_GetStream(USART1)) {
 		/* Do stuff here */
-		//TM_USART_Puts(USART2, "FIFO error occured\n");
+		//TM_USART_Puts(USART1, "FIFO error occured\n");
 	}
 }
 
@@ -62,13 +62,13 @@ static void timeout_handler(void* UserParameters)
 
 uint16_t usart_send_str(char *str)
 {
-    TM_USART_DMA_Send(USART2, (uint8_t *)str, strlen(str));
-    while (TM_USART_DMA_Sending(USART2));
+    TM_USART_DMA_Send(USART1, (uint8_t *)str, strlen(str));
+    while (TM_USART_DMA_Sending(USART1));
 }
 
 uint16_t usart_get_str(char *str, uint16_t len)
 {
-	return TM_USART_Gets(USART2, str, len);
+	return TM_USART_Gets(USART1, str, len);
 }
 
 bool app_gps_request_and_get_reply(char *str_request,
@@ -85,19 +85,19 @@ bool app_gps_request_and_get_reply(char *str_request,
 		usart_get_str(receive_data_temp, sizeof(receive_data_temp));
 	}
 	while(memcmp(receive_data_temp, str_reply_expect, len_reply_expect) && !timeout_flag);
-	TM_USART_ClearBuffer(USART2);
+	TM_USART_ClearBuffer(USART1);
 	TM_DELAY_TimerStop(timeout_timer);
 	
 	if(timeout_flag == false)
 	{
 		sprintf(&receive_data_temp[strlen(receive_data_temp)]," <=> %s\r\n", str_request);
-		TM_USART_Puts(USART1, receive_data_temp);
+		TM_USART_Puts(USART2, receive_data_temp);
 	}
 	else
 	{
 		memcpy(receive_data_temp, str_request, strlen(str_request));
 		sprintf(&receive_data_temp[strlen(receive_data_temp)]," fail\r\n");
-		TM_USART_Puts(USART1, receive_data_temp);
+		TM_USART_Puts(USART2, receive_data_temp);
 	}
 	
 	return !timeout_flag;
@@ -106,7 +106,7 @@ bool app_gps_request_and_get_reply(char *str_request,
 void app_gps_init(uint32_t baudrate_usart)
 {
 	/* Timer has reload value each 5s, enabled auto reload feature*/
-	timeout_timer = TM_DELAY_TimerCreate(3000, 1, 0, timeout_handler, NULL);
+	timeout_timer = TM_DELAY_TimerCreate(5000, 1, 0, timeout_handler, NULL);
 
 	TM_GPIO_Init(GPIOB, 
 				 GPIO_Pin_5, 
@@ -123,12 +123,12 @@ void app_gps_init(uint32_t baudrate_usart)
 	TM_USART_Init(USART1, TM_USART_PinsPack_2, baudrate_usart);//pb6 pb7
 	/* Init TX DMA for USART2 */
 	/* Interrupts for USART2 DMA TX stream are also enabled */
-	TM_USART_DMA_Init(USART2);
+	TM_USART_DMA_Init(USART1);
 	
 	/* Enable USART DMA interrupts */
-	TM_USART_DMA_EnableInterrupts(USART2);
+	//TM_USART_DMA_EnableInterrupts(USART1);
 	
-	TM_USART_Puts(USART1, "test uart 1\r\n");
+	TM_USART_Puts(USART2, "test uart 2\r\n");
 	
 	//while(!app_gps_request_and_get_reply("", "+CREG: 1\r\n", 10));
 	TM_GPIO_SetPinHigh(GPIOB, GPIO_Pin_5);//PB5
@@ -162,9 +162,9 @@ void app_gps_get_value(char *str)
 	}
 	while(memcmp(gps_data, "$GPRMC", 6));
 	gb_gps_data_ready = true;
-	TM_USART_ClearBuffer(USART2);
+	TM_USART_ClearBuffer(USART1);
 	memcpy(str, gps_data, sizeof(gps_data));
-	TM_USART_Puts(USART1, gps_data);//check data of usart2 if receive data has "$GPRMC" string
+	TM_USART_Puts(USART2, gps_data);//check data of usart2 if receive data has "$GPRMC" string
 	memset(gps_data, 0, 200);
 }
 
