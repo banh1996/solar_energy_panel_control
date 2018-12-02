@@ -14,20 +14,13 @@
 */
 void app_gps_init(uint32_t baudrate_usart);
 
-/* brief: function for send data at *str pointer through usart1 PB6
-*/
-uint16_t usart_send_str(char *str);
-
-/* brief: function for receive data at *str pointer through usart1 PB7
-*/
-uint16_t usart_get_str(char *str, uint16_t len);
-
 /* brief: function for get gps value at *str pointer
 */
-void app_gps_get_value(char *str);
+void app_gps_get_value_and_send(char *str);
 
 bool app_gps_request_and_get_reply(char *str_request,
 							 	   char *str_reply_expect, uint16_t len_reply_expect);
 
-void app_gprs_send_data(void);
+bool app_gprs_send_data_to_sever(char *str_send);
+
 #endif
