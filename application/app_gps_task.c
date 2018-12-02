@@ -129,6 +129,7 @@ void app_gps_get_value_and_send(char *str)
 			//TM_USART_Puts(USART2, "send fail\r\n");
 		}
 	}
+	usart_send_str("AT+CIPCLOSE\r\n");
 }
 
 bool app_gprs_send_data_to_sever(char *str_send)
@@ -137,7 +138,7 @@ bool app_gprs_send_data_to_sever(char *str_send)
 	uint32_t len = 0xFE;
 	memset(temp_str, 0, sizeof(temp_str));
 
-	if(app_gps_request_and_get_reply("AT+CIPSTATUS=0\r\n", "+CIPSTATUS:0,CONNECT OK", 23) == false)
+	//if(app_gps_request_and_get_reply("AT+CIPSTATUS=0\r\n", "+CIPSTATUS:0,CONNECT OK", 23) == false)
 	{
 		sprintf(temp_str, "AT+CIPSTART=\"TCP\",\"%s\",3000\r\n", IP_SERVER);	
 		app_gps_request_and_get_reply(temp_str, "OK\r\n", 4);
