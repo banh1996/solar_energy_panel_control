@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Targets\Nucleo_F411_ext_8MHz\project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Targets\Nucleo_F411_ext_8MHz\project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sun Dec 02 15:33:05 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Dec 06 16:58:45 2018
 <BR><P>
 <H3>Maximum Stack Usage =        604 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -247,8 +247,8 @@ Global Symbols
 <P><STRONG><a name="[61]"></a>NVIC_Init</STRONG> (Thumb, 96 bytes, Stack size 12 bytes, misc.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = NVIC_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_INT_Init
-<LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DMA_EnableInterrupts
+<BR>[Called By]<UL><LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DMA_EnableInterrupts
+<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_INT_Init
 </UL>
 
 <P><STRONG><a name="[ab]"></a>NVIC_SetVectorTable</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, misc.o(.text), UNUSED)
@@ -803,16 +803,16 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[6f]"></a>TM_USART_INT_GetUsart</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, tm_stm32f4_usart.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_BufferFull
+<BR><BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_Send
+<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_Puts
+<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_SetCustomStringEndCharacter
+<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_ClearBuffer
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_BufferFull
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_BufferEmpty
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_Gets
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_FindCharacter
 <LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_Getc
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_INT_Init
-<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_Send
-<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_Puts
-<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_SetCustomStringEndCharacter
-<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_ClearBuffer
 </UL>
 
 <P><STRONG><a name="[71]"></a>TM_USART_Init</STRONG> (Thumb, 86 bytes, Stack size 40 bytes, tm_stm32f4_usart.o(.text))
@@ -1054,24 +1054,24 @@ Global Symbols
 <P><STRONG><a name="[8b]"></a>app_gps_init</STRONG> (Thumb, 82 bytes, Stack size 16 bytes, app_gps_task.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 284<LI>Call Chain = app_gps_init &rArr; app_gps_request_and_get_reply &rArr; usart_send_str &rArr; TM_USART_DMA_Send &rArr; DMA_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_Init
-<LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DELAY_TimerCreate
+<BR>[Calls]<UL><LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DELAY_TimerCreate
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app_gps_request_and_get_reply
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_send_str
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_DMA_Init
+<LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[99]"></a>app_gprs_send_data_to_sever</STRONG> (Thumb, 272 bytes, Stack size 216 bytes, app_gps_task.o(.text))
+<P><STRONG><a name="[99]"></a>app_gprs_send_data_to_sever</STRONG> (Thumb, 260 bytes, Stack size 216 bytes, app_gps_task.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 484<LI>Call Chain = app_gprs_send_data_to_sever &rArr; app_gps_request_and_get_reply &rArr; usart_send_str &rArr; TM_USART_DMA_Send &rArr; DMA_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
+<BR>[Calls]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app_gps_request_and_get_reply
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_send_str
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Delayms
+<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app_gps_get_value_and_send
 </UL>
@@ -1194,13 +1194,13 @@ Local Symbols
 <P><STRONG><a name="[63]"></a>TM_DMA_INT_ProcessInterrupt</STRONG> (Thumb, 102 bytes, Stack size 16 bytes, tm_stm32f4_dma.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = TM_DMA_INT_ProcessInterrupt &rArr; TM_DMA_ClearFlag
 </UL>
-<BR>[Calls]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DMA_FIFOErrorHandler
+<BR>[Calls]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DMA_GetFlags
+<LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DMA_ClearFlag
+<LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DMA_FIFOErrorHandler
 <LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DMA_DirectModeErrorHandler
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DMA_TransferErrorHandler
 <LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DMA_HalfTransferCompleteHandler
 <LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DMA_TransferCompleteHandler
-<LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DMA_GetFlags
-<LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DMA_ClearFlag
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA2_Stream7_IRQHandler
 <LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA2_Stream6_IRQHandler
@@ -1223,14 +1223,14 @@ Local Symbols
 <P><STRONG><a name="[6e]"></a>TM_USART_INT_Init</STRONG> (Thumb, 218 bytes, Stack size 80 bytes, tm_stm32f4_usart.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = TM_USART_INT_Init &rArr; TM_USART1_InitPins &rArr; TM_GPIO_InitAlternate &rArr; TM_GPIO_INT_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_INT_GetUsart
+<BR>[Calls]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Init
+<LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_DeInit
+<LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Init
+<LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_INT_GetUsart
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART1_InitPins
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART2_InitPins
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART6_InitPins
 <LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_INT_GetSubPriority
-<LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Init
-<LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_DeInit
-<LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_InitWithFlowControl
 <LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_USART_Init

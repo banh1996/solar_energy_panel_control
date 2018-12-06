@@ -7,6 +7,7 @@
 ".\targets\nucleo_f411_ext_8mhz\stm32f4xx_usart.o"
 ".\targets\nucleo_f411_ext_8mhz\stm32f4xx_adc.o"
 ".\targets\nucleo_f411_ext_8mhz\stm32f4xx_tim.o"
+".\targets\nucleo_f411_ext_8mhz\stm32f4xx_i2c.o"
 ".\targets\nucleo_f411_ext_8mhz\tm_stm32f4_delay.o"
 ".\targets\nucleo_f411_ext_8mhz\tm_stm32f4_disco.o"
 ".\targets\nucleo_f411_ext_8mhz\tm_stm32f4_gpio.o"
@@ -16,6 +17,7 @@
 ".\targets\nucleo_f411_ext_8mhz\tm_stm32f4_adc.o"
 ".\targets\nucleo_f411_ext_8mhz\tm_stm32f4_pwm.o"
 ".\targets\nucleo_f411_ext_8mhz\tm_stm32f4_timer_properties.o"
+".\targets\nucleo_f411_ext_8mhz\tm_stm32f4_i2c.o"
 ".\targets\nucleo_f411_ext_8mhz\main.o"
 ".\targets\nucleo_f411_ext_8mhz\stm32f4xx_it.o"
 ".\targets\nucleo_f411_ext_8mhz\system_stm32f4xx.o"
@@ -24,6 +26,7 @@
 ".\targets\nucleo_f411_ext_8mhz\app_led_control.o"
 ".\targets\nucleo_f411_ext_8mhz\app_motor_control.o"
 ".\targets\nucleo_f411_ext_8mhz\app_photoresistor_sensor.o"
+".\targets\nucleo_f411_ext_8mhz\app_mpu6050_task.o"
 --library_type=microlib --strict --scatter ".\Targets\Nucleo_F411_ext_8MHz\project.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
