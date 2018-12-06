@@ -771,6 +771,11 @@
               <FileType>1</FileType>
               <FilePath>.\application\app_photoresistor_sensor.c</FilePath>
             </File>
+            <File>
+              <FileName>app_mpu6050_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_mpu6050_task.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -1539,6 +1544,11 @@
               <FileName>app_photoresistor_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_photoresistor_sensor.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_mpu6050_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_mpu6050_task.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2309,6 +2319,11 @@
               <FileType>1</FileType>
               <FilePath>.\application\app_photoresistor_sensor.c</FilePath>
             </File>
+            <File>
+              <FileName>app_mpu6050_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_mpu6050_task.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -3077,6 +3092,11 @@
               <FileName>app_photoresistor_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_photoresistor_sensor.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_mpu6050_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_mpu6050_task.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3847,6 +3867,11 @@
               <FileType>1</FileType>
               <FilePath>.\application\app_photoresistor_sensor.c</FilePath>
             </File>
+            <File>
+              <FileName>app_mpu6050_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_mpu6050_task.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -4616,6 +4641,11 @@
               <FileType>1</FileType>
               <FilePath>.\application\app_photoresistor_sensor.c</FilePath>
             </File>
+            <File>
+              <FileName>app_mpu6050_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_mpu6050_task.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -5384,6 +5414,11 @@
               <FileName>app_photoresistor_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_photoresistor_sensor.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_mpu6050_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_mpu6050_task.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -6155,6 +6190,11 @@
               <FileType>1</FileType>
               <FilePath>.\application\app_photoresistor_sensor.c</FilePath>
             </File>
+            <File>
+              <FileName>app_mpu6050_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_mpu6050_task.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -6924,6 +6964,11 @@
               <FileType>1</FileType>
               <FilePath>.\application\app_photoresistor_sensor.c</FilePath>
             </File>
+            <File>
+              <FileName>app_mpu6050_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_mpu6050_task.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -7692,6 +7737,11 @@
               <FileName>app_photoresistor_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_photoresistor_sensor.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_mpu6050_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_mpu6050_task.c</FilePath>
             </File>
           </Files>
         </Group>
