@@ -786,6 +786,11 @@
               <FileType>1</FileType>
               <FilePath>.\application\app_mpu6050_task.c</FilePath>
             </File>
+            <File>
+              <FileName>app_lcd_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_lcd_task.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -1569,6 +1574,11 @@
               <FileName>app_mpu6050_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_mpu6050_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_lcd_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_lcd_task.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2354,6 +2364,11 @@
               <FileType>1</FileType>
               <FilePath>.\application\app_mpu6050_task.c</FilePath>
             </File>
+            <File>
+              <FileName>app_lcd_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_lcd_task.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -3137,6 +3152,11 @@
               <FileName>app_mpu6050_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_mpu6050_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_lcd_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_lcd_task.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3922,6 +3942,11 @@
               <FileType>1</FileType>
               <FilePath>.\application\app_mpu6050_task.c</FilePath>
             </File>
+            <File>
+              <FileName>app_lcd_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_lcd_task.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -4706,6 +4731,11 @@
               <FileType>1</FileType>
               <FilePath>.\application\app_mpu6050_task.c</FilePath>
             </File>
+            <File>
+              <FileName>app_lcd_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_lcd_task.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -5489,6 +5519,11 @@
               <FileName>app_mpu6050_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_mpu6050_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_lcd_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_lcd_task.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -6275,6 +6310,11 @@
               <FileType>1</FileType>
               <FilePath>.\application\app_mpu6050_task.c</FilePath>
             </File>
+            <File>
+              <FileName>app_lcd_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_lcd_task.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -7059,6 +7099,11 @@
               <FileType>1</FileType>
               <FilePath>.\application\app_mpu6050_task.c</FilePath>
             </File>
+            <File>
+              <FileName>app_lcd_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_lcd_task.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -7842,6 +7887,11 @@
               <FileName>app_mpu6050_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_mpu6050_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_lcd_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_lcd_task.c</FilePath>
             </File>
           </Files>
         </Group>
