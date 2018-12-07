@@ -30,6 +30,7 @@ static uint16_t adc1 = 0;
 static uint16_t adc2 = 0;
 static uint16_t adc3 = 0;
 static uint16_t num = 0;
+static MPU6050_data_t MPU6050_data;
 static char str[100];
 
 int main(void) 

@@ -5,7 +5,7 @@
 <h2>Tool Versions:</h2>
 IDE-Version: µVision V5.26.2.0
 Copyright (C) 2018 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: hung tran, pi-tech, LIC=----
+License Information: hung tran, pitech, LIC=----
  
 Tool Versions:
 Toolchain:       MDK-Lite  Version: 5.26.2.0
@@ -21,8 +21,8 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.5.0
 Dialog DLL:      TCM.DLL V1.36.1.0
  
 <h2>Project:</h2>
-F:\working\PROJECT\solar_energy_panel_control\project.uvprojx
-Project File Date:  12/06/2018
+E:\luanvan\solar_energy_panel_control\project.uvprojx
+Project File Date:  12/07/2018
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
@@ -32,20 +32,20 @@ compiling misc.c...
 compiling stm32f4xx_gpio.c...
 compiling stm32f4xx_rcc.c...
 compiling stm32f4xx_dma.c...
-compiling stm32f4xx_usart.c...
 compiling stm32f4xx_adc.c...
+compiling stm32f4xx_usart.c...
+compiling tm_stm32f4_delay.c...
 compiling stm32f4xx_i2c.c...
 compiling stm32f4xx_tim.c...
 compiling tm_stm32f4_disco.c...
-compiling tm_stm32f4_delay.c...
 compiling tm_stm32f4_gpio.c...
 compiling tm_stm32f4_dma.c...
-compiling tm_stm32f4_usart.c...
 compiling tm_stm32f4_usart_dma.c...
+compiling tm_stm32f4_usart.c...
 compiling tm_stm32f4_adc.c...
-compiling tm_stm32f4_pwm.c...
-compiling tm_stm32f4_i2c.c...
 compiling tm_stm32f4_timer_properties.c...
+compiling tm_stm32f4_i2c.c...
+compiling tm_stm32f4_pwm.c...
 compiling main.c...
 .\application\app_motor_control.h(38): warning:  #1-D: last line of file ends without a newline
   #endif
@@ -53,7 +53,9 @@ compiling main.c...
   #endif
 .\application\app_led_control.h(27): warning:  #1-D: last line of file ends without a newline
   #endif
-User\main.c(59): warning:  #111-D: statement is unreachable
+User\main.c(33): error:  #20: identifier "MPU6050_data_t" is undefined
+  static MPU6050_data_t MPU6050_data;
+User\main.c(60): warning:  #111-D: statement is unreachable
   	Delayms(1111);
 User\main.c(28): warning:  #177-D: variable "adc0"  was declared but never referenced
   static uint16_t adc0 = 0;
@@ -65,31 +67,47 @@ User\main.c(31): warning:  #177-D: variable "adc3"  was declared but never refer
   static uint16_t adc3 = 0;
 User\main.c(32): warning:  #177-D: variable "num"  was declared but never referenced
   static uint16_t num = 0;
-User\main.c: 9 warnings, 0 errors
+User\main.c: 9 warnings, 1 error
 compiling stm32f4xx_it.c...
 compiling system_stm32f4xx.c...
-compiling app_led_control.c...
-application\app_led_control.h(27): warning:  #1-D: last line of file ends without a newline
-  #endif
-application\app_led_control.c(97): warning:  #1-D: last line of file ends without a newline
-  }
-application\app_led_control.c: 2 warnings, 0 errors
 compiling app_button_control.c...
 application\app_button_control.h(16): warning:  #1-D: last line of file ends without a newline
   #endif
 application\app_button_control.c(11): warning:  #1-D: last line of file ends without a newline
   }
 application\app_button_control.c: 2 warnings, 0 errors
+compiling app_led_control.c...
+application\app_led_control.h(27): warning:  #1-D: last line of file ends without a newline
+  #endif
+application\app_led_control.c(97): warning:  #1-D: last line of file ends without a newline
+  }
+application\app_led_control.c: 2 warnings, 0 errors
 compiling app_gps_task.c...
 application\app_gps_task.c(12): warning:  #940-D: missing return statement at end of non-void function "usart_send_str" 
   }
 application\app_gps_task.c: 1 warning, 0 errors
 compiling app_mpu6050_task.c...
-application\app_mpu6050_task.h(11): warning:  #1-D: last line of file ends without a newline
+application\app_mpu6050_task.h(106): warning:  #1-D: last line of file ends without a newline
   #endif
-application\app_mpu6050_task.c(64): warning:  #1-D: last line of file ends without a newline
+application\app_mpu6050_task.c(43): error:  #53: expected a ":"
+  		case MPU6050_Accelerometer_2G:
+application\app_mpu6050_task.c(46): error:  #53: expected a ":"
+  		case MPU6050_Accelerometer_4G:
+application\app_mpu6050_task.c(49): error:  #53: expected a ":"
+  		case MPU6050_Accelerometer_8G:
+application\app_mpu6050_task.c(60): error:  #53: expected a ":"
+  		case MPU6050_Gyroscope_250s:
+application\app_mpu6050_task.c(63): error:  #53: expected a ":"
+  		case MPU6050_Gyroscope_500s:
+application\app_mpu6050_task.c(66): error:  #53: expected a ":"
+  		case MPU6050_Gyroscope_1000s:
+application\app_mpu6050_task.c(103): warning:  #1-D: last line of file ends without a newline
   }
-application\app_mpu6050_task.c: 2 warnings, 0 errors
+application\app_mpu6050_task.c(3): warning:  #550-D: variable "accel_value"  was set but never used
+  static float accel_value = 0.0;   // Accelerometer corrector from raw data to "g"
+application\app_mpu6050_task.c(4): warning:  #550-D: variable "gyro_value"  was set but never used
+  static float gyro_value = 0.0;     // Gyroscope corrector from raw data to "degrees/s"
+application\app_mpu6050_task.c: 4 warnings, 6 errors
 compiling app_photoresistor_sensor.c...
 application\app_photoresistor_sensor.h(15): warning:  #1-D: last line of file ends without a newline
   #endif
@@ -104,10 +122,7 @@ application\app_motor_control.c(13): warning:  #550-D: variable "adc_left"  was 
 application\app_motor_control.c(14): warning:  #550-D: variable "adc_right"  was set but never used
   static uint16_t adc_right = 0;
 application\app_motor_control.c: 4 warnings, 0 errors
-linking...
-Program Size: Code=8544 RO-data=740 RW-data=156 ZI-data=1940  
-FromELF: creating hex file...
-".\Targets\Nucleo_F411_ext_8MHz\project.axf" - 0 Error(s), 21 Warning(s).
+".\Targets\Nucleo_F411_ext_8MHz\project.axf" - 7 Error(s), 23 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -121,7 +136,8 @@ Package Vendor: Keil
   C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:14
+Target not created.
+Build Time Elapsed:  00:00:08
 </pre>
 </body>
 </html>

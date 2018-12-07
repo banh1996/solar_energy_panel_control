@@ -6,13 +6,6 @@
 #include <stdbool.h>
 #include "tm_stm32f4_i2c.h"
 
-/* Default I2C used */
-//pin PB10 PB11
-#ifndef MPU6050_I2C
-#define	MPU6050_I2C					I2C2
-#define MPU6050_I2C_PINSPACK		TM_I2C_PinsPack_1
-#endif
-
 /* Default I2C clock */
 #ifndef MPU6050_I2C_CLOCK
 #define MPU6050_I2C_CLOCK			400000
@@ -71,16 +64,43 @@
 #define MPU6050_ACCE_SENS_8			((float) 4096)
 #define MPU6050_ACCE_SENS_16		((float) 2048)
 
+#define MPU6050_Accelerometer_2G  	0x00, /*!< Range is +- 2G */
+#define	MPU6050_Accelerometer_4G  	0x01, /*!< Range is +- 4G */
+#define	MPU6050_Accelerometer_8G  	0x02, /*!< Range is +- 8G */
+#define	MPU6050_Accelerometer_16G  	0x03 /*!< Range is +- 16G */
+
+#define	MPU6050_Gyroscope_250s  		0x00,  /*!< Range is +- 250 degrees/s */
+#define	MPU6050_Gyroscope_500s  		0x01,  /*!< Range is +- 500 degrees/s */
+#define	MPU6050_Gyroscope_1000s  		0x02, /*!< Range is +- 1000 degrees/s */
+#define	MPU6050_Gyroscope_2000s  		0x03  /*!< Range is +- 2000 degrees/s */
+
 /**
  * @brief  MPU6050 result enumeration	
  */
 typedef enum {
-	TM_MPU6050_Result_Ok = 0x00,          /*!< Everything OK */
-	TM_MPU6050_Result_DeviceNotConnected, /*!< There is no device with valid slave address */
-	TM_MPU6050_Result_DeviceInvalid       /*!< Connected device with address is not MPU6050 */
-} TM_MPU6050_Result_t;
+	MPU6050_Ok = 0x00,          /*!< Everything OK */
+	MPU6050_DeviceNotConnected, /*!< There is no device with valid slave address */
+	MPU6050_DeviceInvalid       /*!< Connected device with address is not MPU6050 */
+} MPU6050_Result_t;
 
+typedef struct {
+	/* Private */
+	uint8_t Address;         /*!< I2C address of device. Only for private use */
+	float Gyro_Mult;         /*!< Gyroscope corrector from raw data to "degrees/s". Only for private use */
+	float Acce_Mult;         /*!< Accelerometer corrector from raw data to "g". Only for private use */
+	/* Public */
+	int16_t Accelerometer_X; /*!< Accelerometer value X axis */
+	int16_t Accelerometer_Y; /*!< Accelerometer value Y axis */
+	int16_t Accelerometer_Z; /*!< Accelerometer value Z axis */
+	int16_t Gyroscope_X;     /*!< Gyroscope value X axis */
+	int16_t Gyroscope_Y;     /*!< Gyroscope value Y axis */
+	int16_t Gyroscope_Z;     /*!< Gyroscope value Z axis */
+	float Temperature;       /*!< Temperature in degrees */
+} MPU6050_data_t;
 
-void app_mpu_6050_init(void);
+MPU6050_Result_t app_mpu_6050_init(uint8_t accel_sensitivity,
+								   uint8_t gyro_sensitivity);
+
+MPU6050_Result_t app_mpu6050_ReadAll(MPU6050_data_t* DataStruct);
 
 #endif

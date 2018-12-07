@@ -1,7 +1,7 @@
 {
 	"folders": [
 		{
-			"path": "F:\\working\\PROJECT\\solar_energy_panel_control"
+			"path": "../"
 		}
 	],
 	"settings": {
@@ -11,7 +11,8 @@
 			"app_led_control.h": "c",
 			"app_photoresistor_sensor.h": "c",
 			"stdio.h": "c",
-			"tm_stm32f4_delay.h": "c"
+			"tm_stm32f4_delay.h": "c",
+			"app_mpu6050_task.h": "c"
 		}
 	}
 }
