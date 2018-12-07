@@ -5,7 +5,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-/* brief: init led board
+#define LCD_I2C_CLOCK	400000
+
+/* brief: init lcd module
 */
 void app_lcd_init(void);
 

@@ -13,7 +13,7 @@ MPU6050_Result_t app_mpu_6050_init(uint8_t accel_sensitivity,
 
     	/* Check if device is connected */
 	if (!TM_I2C_IsDeviceConnected(I2C3, MPU6050_I2C_ADDR)) 
-  {
+  	{
 		/* Return error */
 		return MPU6050_DeviceNotConnected;
 	}
