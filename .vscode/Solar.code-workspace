@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "../"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"app_motor_control.h": "c",
+			"tm_stm32f4_disco.h": "c",
+			"app_led_control.h": "c",
+			"app_photoresistor_sensor.h": "c",
+			"stdio.h": "c",
+			"tm_stm32f4_delay.h": "c",
+			"app_mpu6050_task.h": "c",
+			"app_lcd_task.h": "c"
+		}
+	}
+}
