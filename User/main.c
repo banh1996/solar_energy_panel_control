@@ -24,6 +24,7 @@
 #include "app_photoresistor_sensor.h"
 #include "app_led_control.h"
 #include "app_gps_task.h"
+#include "app_mpu6050_task.h"
 
 static uint16_t adc0 = 0;
 static uint16_t adc1 = 0;

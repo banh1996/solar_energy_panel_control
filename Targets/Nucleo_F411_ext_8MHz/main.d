@@ -49,3 +49,5 @@
 .\targets\nucleo_f411_ext_8mhz\main.o: ..\00-STM32F429_LIBRARIES\tm_stm32f4_usart_dma.h
 .\targets\nucleo_f411_ext_8mhz\main.o: ..\00-STM32F429_LIBRARIES\tm_stm32f4_dma.h
 .\targets\nucleo_f411_ext_8mhz\main.o: ..\00-STM32F429_LIBRARIES\tm_stm32f4_dma.h
+.\targets\nucleo_f411_ext_8mhz\main.o: .\application\app_mpu6050_task.h
+.\targets\nucleo_f411_ext_8mhz\main.o: ..\00-STM32F429_LIBRARIES\tm_stm32f4_i2c.h

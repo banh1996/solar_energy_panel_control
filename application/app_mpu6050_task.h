@@ -64,14 +64,14 @@
 #define MPU6050_ACCE_SENS_8			((float) 4096)
 #define MPU6050_ACCE_SENS_16		((float) 2048)
 
-#define MPU6050_Accelerometer_2G  	0x00, /*!< Range is +- 2G */
-#define	MPU6050_Accelerometer_4G  	0x01, /*!< Range is +- 4G */
-#define	MPU6050_Accelerometer_8G  	0x02, /*!< Range is +- 8G */
+#define MPU6050_Accelerometer_2G  	0x00 /*!< Range is +- 2G */
+#define	MPU6050_Accelerometer_4G  	0x01 /*!< Range is +- 4G */
+#define	MPU6050_Accelerometer_8G  	0x02 /*!< Range is +- 8G */
 #define	MPU6050_Accelerometer_16G  	0x03 /*!< Range is +- 16G */
 
-#define	MPU6050_Gyroscope_250s  		0x00,  /*!< Range is +- 250 degrees/s */
-#define	MPU6050_Gyroscope_500s  		0x01,  /*!< Range is +- 500 degrees/s */
-#define	MPU6050_Gyroscope_1000s  		0x02, /*!< Range is +- 1000 degrees/s */
+#define	MPU6050_Gyroscope_250s  		0x00  /*!< Range is +- 250 degrees/s */
+#define	MPU6050_Gyroscope_500s  		0x01  /*!< Range is +- 500 degrees/s */
+#define	MPU6050_Gyroscope_1000s  		0x02 /*!< Range is +- 1000 degrees/s */
 #define	MPU6050_Gyroscope_2000s  		0x03  /*!< Range is +- 2000 degrees/s */
 
 /**
