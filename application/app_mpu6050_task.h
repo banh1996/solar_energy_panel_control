@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <math.h>
 #include "tm_stm32f4_i2c.h"
 
 /* Default I2C clock */
@@ -77,24 +78,21 @@
 /**
  * @brief  MPU6050 result enumeration	
  */
-typedef enum {
+typedef enum 
+{
 	MPU6050_Ok = 0x00,          /*!< Everything OK */
 	MPU6050_DeviceNotConnected, /*!< There is no device with valid slave address */
 	MPU6050_DeviceInvalid       /*!< Connected device with address is not MPU6050 */
 } MPU6050_Result_t;
 
-typedef struct {
-	/* Private */
-	uint8_t Address;         /*!< I2C address of device. Only for private use */
-	float Gyro_Mult;         /*!< Gyroscope corrector from raw data to "degrees/s". Only for private use */
-	float Acce_Mult;         /*!< Accelerometer corrector from raw data to "g". Only for private use */
-	/* Public */
-	int16_t Accelerometer_X; /*!< Accelerometer value X axis */
-	int16_t Accelerometer_Y; /*!< Accelerometer value Y axis */
-	int16_t Accelerometer_Z; /*!< Accelerometer value Z axis */
-	int16_t Gyroscope_X;     /*!< Gyroscope value X axis */
-	int16_t Gyroscope_Y;     /*!< Gyroscope value Y axis */
-	int16_t Gyroscope_Z;     /*!< Gyroscope value Z axis */
+typedef struct 
+{
+	float Accelerometer_X; /*!< Accelerometer value X axis */
+	float Accelerometer_Y; /*!< Accelerometer value Y axis */
+	float Accelerometer_Z; /*!< Accelerometer value Z axis */
+	float Gyroscope_X;     /*!< Gyroscope value X axis */
+	float Gyroscope_Y;     /*!< Gyroscope value Y axis */
+	float Gyroscope_Z;     /*!< Gyroscope value Z axis */
 	float Temperature;       /*!< Temperature in degrees */
 } MPU6050_data_t;
 

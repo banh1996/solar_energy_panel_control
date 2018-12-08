@@ -89,7 +89,8 @@ void app_gps_init(uint32_t baudrate_usart)
 	
 	while(!app_gps_request_and_get_reply("AT+GPS=1\r\n", "OK\r\n", 4));
 	
-	usart_send_str("AT+CIPCLOSE\r\n");
+	usart_send_str("AT+RST=1\r\n");
+	Delayms(100);
 }
 
 void app_gps_get_value_and_send(char *str)
@@ -133,7 +134,7 @@ void app_gps_get_value_and_send(char *str)
 }
 
 bool app_gprs_send_data_to_sever(char *str_send)
-{	
+{
 	char temp_str[200];
 	uint32_t len = 0xFE;
 	memset(temp_str, 0, sizeof(temp_str));

@@ -25,6 +25,7 @@
 #include "app_led_control.h"
 #include "app_gps_task.h"
 #include "app_mpu6050_task.h"
+#include "app_lcd_task.h"
 
 static uint16_t adc0 = 0;
 static uint16_t adc1 = 0;
@@ -44,14 +45,50 @@ int main(void)
 	TM_DELAY_Init();
 	
 	//app_led_init();
-	app_photoresistor_init();
+	//app_photoresistor_init();
 	//app_led_on(LED_BLUE);
-	//app_motor_init(10);//10hz
+	//app_motor_init(10);//10hz	
+	//app_gps_init(115200);
+	TM_USART_Init(USART2, TM_USART_PinsPack_1, 115200);
+	TM_USART_Puts(USART2, "test uart 2\r\n");
+	if (app_mpu_6050_init(MPU6050_Accelerometer_2G, MPU6050_Gyroscope_250s) != MPU6050_Ok) 
+	{
+		TM_USART_Puts(USART2, "MPU6050 Error\n");
+		while (1);
+	}
+
 	
+	if(app_lcd_init() != LCD_Ok)
+	{
+		TM_USART_Puts(USART2, "LCD Error\n");
+		while (1);
+	}
+
+	app_lcd_send_string("banh\r\n");
 	
-	app_gps_init(115200);
-	app_mpu_6050_init(MPU6050_Accelerometer_2G, MPU6050_Gyroscope_250s);
-	
+	while (1) 
+	{
+		/* Read all data from sensor */
+		app_mpu6050_ReadAll(&MPU6050_data);
+		
+		/* Format data */		
+		sprintf(str, "Accelerometer\n- X:%0.3f\n- Y:%0.3f\n- Z:%0.3f\nGyroscope\n- X:%0.3f\n- Y:%0.3f\n- Z:%0.3f\nTemperature\n- %3.4f\n\n\n",
+			MPU6050_data.Accelerometer_X,
+			MPU6050_data.Accelerometer_Y,
+			MPU6050_data.Accelerometer_Z,
+			MPU6050_data.Gyroscope_X,
+			MPU6050_data.Gyroscope_Y,
+			MPU6050_data.Gyroscope_Z,
+			MPU6050_data.Temperature
+		);
+		
+		/* Show to usart */
+		TM_USART_Puts(USART2, str);
+		
+		/* Little delay */
+		Delayms(500);
+	}
+
 	while(1)
 	{
 	app_gps_get_value_and_send(str);
