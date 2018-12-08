@@ -10,17 +10,29 @@
 #include "tm_stm32f4_usart_dma.h"
 #include "stm32f4xx_usart.h"
 
+/**
+ * @brief  A9G result enumeration	
+ */
+typedef enum 
+{
+	A9G_Ok = 0x00,          /*!< Everything OK */
+	A9G_Device_Not_Available, /*!< There is no device with valid address */
+	A9G_GPS_Error,     		/*!< Can't read GPS A9G */
+	A9G_Not_Ready,			/*!< A9G module not ready */
+	A9G_DeviceInvalid,       /*!< Connected device with address is not A9G */
+	A9G_Send_Fail,
+	A9G_Cant_connect_server
+} A9G_Result_t;
+
+
 /* brief: function for init GPS module
 */
-void app_gps_init(uint32_t baudrate_usart);
+A9G_Result_t app_gps_init(uint32_t baudrate_usart);
 
 /* brief: function for get gps value at *str pointer
 */
-void app_gps_get_value_and_send(char *str);
+A9G_Result_t app_gps_get_value_and_send(void);
 
-bool app_gps_request_and_get_reply(char *str_request,
-							 	   char *str_reply_expect, uint16_t len_reply_expect);
-
-bool app_gprs_send_data_to_sever(char *str_send);
+A9G_Result_t app_gprs_send_data_to_sever(char *str_send);
 
 #endif

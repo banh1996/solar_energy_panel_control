@@ -20,6 +20,15 @@ void app_motor_init(uint16_t frequency)
 	/* 50Hz = 20ms = 20000us */
 	TM_PWM_InitTimer(TIM2, &TIM2_Data, frequency);
 	TM_PWM_InitTimer(TIM3, &TIM3_Data, frequency);
+	TM_GPIO_Init(GPIOA, GPIO_Pin_1 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7, 
+							 TM_GPIO_Mode_OUT, 
+							 TM_GPIO_OType_PP, 
+							 TM_GPIO_PuPd_NOPULL, 
+							 TM_GPIO_Speed_High);
+	TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_1);//PA1
+	TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_5);//PA5
+	TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_6);//PA6
+	TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_7);//PA7
 	
 	/* Initialize PWM on TIM2, TIM3, Channel 1 and PinsPack = PA5,PA6 */
 	//TM_PWM_InitChannel(&TIM2_Data, TM_PWM_Channel_2, TM_PWM_PinsPack_1);//PA1

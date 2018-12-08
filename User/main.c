@@ -44,73 +44,51 @@ int main(void)
 	/* Initialize delay functions */
 	TM_DELAY_Init();
 	
-	//app_led_init();
-	//app_photoresistor_init();
-	//app_led_on(LED_BLUE);
-	//app_motor_init(10);//10hz	
-	//app_gps_init(115200);
+	app_motor_init(10);//10hz	
+	app_photoresistor_init();
+	app_gps_init(115200);
 	TM_USART_Init(USART2, TM_USART_PinsPack_1, 115200);
 	TM_USART_Puts(USART2, "test uart 2\r\n");
 	if (app_mpu_6050_init(MPU6050_Accelerometer_2G, MPU6050_Gyroscope_250s) != MPU6050_Ok) 
 	{
 		TM_USART_Puts(USART2, "MPU6050 Error\n");
-		while (1);
 	}
 
-	
 	if(app_lcd_init() != LCD_Ok)
 	{
 		TM_USART_Puts(USART2, "LCD Error\n");
-		while (1);
+	}
+	else
+	{
+		lcd_send_cmd(0x01);
+		Delayms(1000);
+		app_lcd_send_string("Hello babe");
 	}
 
-	app_lcd_send_string("banh\r\n");
-	
 	while (1) 
 	{
 		/* Read all data from sensor */
-		app_mpu6050_ReadAll(&MPU6050_data);
+			app_mpu6050_ReadAll(&MPU6050_data);
 		
 		/* Format data */		
-		sprintf(str, "Accelerometer\n- X:%0.3f\n- Y:%0.3f\n- Z:%0.3f\nGyroscope\n- X:%0.3f\n- Y:%0.3f\n- Z:%0.3f\nTemperature\n- %3.4f\n\n\n",
-			MPU6050_data.Accelerometer_X,
-			MPU6050_data.Accelerometer_Y,
-			MPU6050_data.Accelerometer_Z,
-			MPU6050_data.Gyroscope_X,
-			MPU6050_data.Gyroscope_Y,
-			MPU6050_data.Gyroscope_Z,
-			MPU6050_data.Temperature
-		);
+			sprintf(str, 
+						  "Accelerometer\n- X:%0.3f\n- Y:%0.3f\n- Z:%0.3f\nGyroscope\n- X:%0.3f\n- Y:%0.3f\n- Z:%0.3f\nTemperature\n- %3.4f\n\n\n",
+							MPU6050_data.Accelerometer_X,
+							MPU6050_data.Accelerometer_Y,
+							MPU6050_data.Accelerometer_Z,
+							MPU6050_data.Gyroscope_X,
+							MPU6050_data.Gyroscope_Y,
+							MPU6050_data.Gyroscope_Z,
+							MPU6050_data.Temperature);
 		
 		/* Show to usart */
 		TM_USART_Puts(USART2, str);
-		
+		app_gps_get_value_and_send();
+		app_motor_control_servo(app_photoresistor_read(ADC_Channel_10),
+														app_photoresistor_read(ADC_Channel_11),
+														app_photoresistor_read(ADC_Channel_12),
+														app_photoresistor_read(ADC_Channel_13));
 		/* Little delay */
-		Delayms(500);
-	}
-
-	while(1)
-	{
-	app_gps_get_value_and_send(str);
-	//app_gprs_send_data();
-		Delayms(3000);
-	}
-	
-	
-	Delayms(1111);
-	while (1) 
-	{
-		app_gps_get_value_and_send(str);
-//	 	adc0 = app_photoresistor_read(ADC_Channel_10);//PC0
-//	 	adc1 = app_photoresistor_read(ADC_Channel_11);//PC1
-//	 	adc2 = app_photoresistor_read(ADC_Channel_12);//PC2
-//	 	adc3 = app_photoresistor_read(ADC_Channel_13);//PC3
-		
-//		app_motor_control_servo(app_photoresistor_read(ADC_Channel_10),
-//														 app_photoresistor_read(ADC_Channel_11),
-//														 app_photoresistor_read(ADC_Channel_12),
-//														 app_photoresistor_read(ADC_Channel_13));
-	//app_motor_control_servo(adc0, adc1, adc2, adc3);
-		Delayms(20);
+		Delayms(250);
 	}
 }

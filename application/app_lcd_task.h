@@ -8,8 +8,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "tm_stm32f4_i2c.h"
+#include "tm_stm32f4_delay.h"
 
-#define LCD_I2C_CLOCK	    400000
+#define LCD_I2C_CLOCK	    100000
 #define LCD_SLAVE_I2C_ADDR	0x4E
 
 /**
@@ -27,6 +28,11 @@ typedef enum
 */
 LCD_Result_t app_lcd_init(void);
 
+/* brief: put string to lcd
+*/
 LCD_Result_t app_lcd_send_string (char *str);
 
+LCD_Result_t app_lcd_set_cursor (uint8_t x, uint8_t y);
+
+void lcd_send_cmd (char cmd);
 #endif
