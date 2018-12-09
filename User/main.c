@@ -27,6 +27,7 @@
 #include "app_mpu6050_task.h"
 #include "app_lcd_task.h"
 
+static TM_DELAY_Timer_t* 	gps_send_duration_timer;
 static uint16_t adc0 = 0;
 static uint16_t adc1 = 0;
 static uint16_t adc2 = 0;
@@ -34,6 +35,12 @@ static uint16_t adc3 = 0;
 static uint16_t num = 0;
 static MPU6050_data_t MPU6050_data;
 static char str[100];
+static volatile bool gps_send_ready = false;
+
+static void gps_send_handler(void* UserParameters)
+{
+	gps_send_ready = true;
+}
 
 int main(void) 
 {
@@ -43,10 +50,11 @@ int main(void)
 	
 	/* Initialize delay functions */
 	TM_DELAY_Init();
-	
+
 	app_motor_init(10);//10hz	
 	app_photoresistor_init();
 	app_gps_init(115200);
+	
 	TM_USART_Init(USART2, TM_USART_PinsPack_1, 115200);
 	TM_USART_Puts(USART2, "test uart 2\r\n");
 	if (app_mpu_6050_init(MPU6050_Accelerometer_2G, MPU6050_Gyroscope_250s) != MPU6050_Ok) 
@@ -64,7 +72,8 @@ int main(void)
 		Delayms(1000);
 		app_lcd_send_string("Hello babe");
 	}
-
+	//gps_send_duration_timer = TM_DELAY_TimerCreate(2500, 1, 1, gps_send_handler, NULL);
+	//TM_DELAY_TimerStart(gps_send_duration_timer);
 	while (1) 
 	{
 		/* Read all data from sensor */
@@ -83,7 +92,12 @@ int main(void)
 		
 		/* Show to usart */
 		TM_USART_Puts(USART2, str);
-		app_gps_get_value_and_send();
+		//if(gps_send_ready == true)
+		{
+			app_gps_get_value_and_send();
+			gps_send_ready = false;
+		}
+		
 		app_motor_control_servo(app_photoresistor_read(ADC_Channel_10),
 														app_photoresistor_read(ADC_Channel_11),
 														app_photoresistor_read(ADC_Channel_12),
