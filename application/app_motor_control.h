@@ -9,8 +9,9 @@
 
 #define MOTOR1         1
 #define MOTOR2         2
-#define SPEED_PERCENT  12
-#define STOP_THRESHOLD 180
+#define SPEED_PERCENT_1  12
+#define SPEED_PERCENT_2  18
+#define STOP_THRESHOLD 200
 
 /* brief: function for init PWM servo
 */
@@ -35,4 +36,5 @@ void app_motor_control_servo(uint16_t adc0,
 														 uint16_t adc1,
 														 uint16_t adc2,
 														 uint16_t adc3);
+
 #endif

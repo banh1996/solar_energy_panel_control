@@ -20,11 +20,14 @@ void app_motor_init(uint16_t frequency)
 	/* 50Hz = 20ms = 20000us */
 	TM_PWM_InitTimer(TIM2, &TIM2_Data, frequency);
 	TM_PWM_InitTimer(TIM3, &TIM3_Data, frequency);
-	TM_GPIO_Init(GPIOA, GPIO_Pin_1 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7, 
+	
+	TM_GPIO_Init(GPIOA, 
+							 GPIO_Pin_1 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7, 
 							 TM_GPIO_Mode_OUT, 
-							 TM_GPIO_OType_PP, 
-							 TM_GPIO_PuPd_NOPULL, 
-							 TM_GPIO_Speed_High);
+								TM_GPIO_OType_PP, 	
+	TM_GPIO_PuPd_NOPULL, 
+	TM_GPIO_Speed_High);
+
 	TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_1);//PA1
 	TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_5);//PA5
 	TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_6);//PA6
@@ -139,9 +142,9 @@ void app_motor_stop(uint8_t motor)
 }
 
 void app_motor_control_servo(uint16_t adc0,
-							 uint16_t adc1,
-							 uint16_t adc2,
-							 uint16_t adc3)
+														 uint16_t adc1,
+														 uint16_t adc2,
+														 uint16_t adc3)
 {
 	adc_top			= adc0/2 + adc3/2;
 	adc_bottom 	= adc1/2 + adc2/2;
@@ -161,11 +164,11 @@ void app_motor_control_servo(uint16_t adc0,
 				if(isforward_motor1 == 1)
 				{
 					app_motor_stop(MOTOR1);
-					app_motor_start(MOTOR1, SPEED_PERCENT, false);
+					app_motor_start(MOTOR1, SPEED_PERCENT_1, false);
 				}
 				else if(isforward_motor1 == 0)
 				{
-					app_motor_start(MOTOR1, SPEED_PERCENT, false);
+					app_motor_start(MOTOR1, SPEED_PERCENT_1, false);
 				}
 			}
 		}
@@ -176,11 +179,49 @@ void app_motor_control_servo(uint16_t adc0,
 				if(isforward_motor1 == 2)
 				{
 					app_motor_stop(MOTOR1);
-					app_motor_start(MOTOR1, SPEED_PERCENT, true);
+					app_motor_start(MOTOR1, SPEED_PERCENT_1, true);
 				}
 				else if(isforward_motor1 == 0)
 				{
-					app_motor_start(MOTOR1, SPEED_PERCENT, true);
+					app_motor_start(MOTOR1, SPEED_PERCENT_1, true);
+				}
+			}
+		}
+	}
+
+	if(abs(adc_right - adc_left) < STOP_THRESHOLD)
+	{
+		app_motor_stop(MOTOR2);
+	}
+	else
+	{
+		if(adc_left < adc_right)
+		{
+			if(!motor2_flag)
+			{
+				if(isforward_motor2 == 1)
+				{
+					app_motor_stop(MOTOR2);
+					app_motor_start(MOTOR2, SPEED_PERCENT_2, false);
+				}
+				else if(isforward_motor2 == 0)
+				{
+					app_motor_start(MOTOR2, SPEED_PERCENT_2, false);
+				}
+			}
+		}
+		else
+		{
+			if(!motor2_flag)
+			{
+				if(isforward_motor2 == 2)
+				{
+					app_motor_stop(MOTOR2);
+					app_motor_start(MOTOR2, SPEED_PERCENT_2, true);
+				}
+				else if(isforward_motor2 == 0)
+				{
+					app_motor_start(MOTOR2, SPEED_PERCENT_2, true);
 				}
 			}
 		}
