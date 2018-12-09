@@ -139,9 +139,9 @@ void app_motor_stop(uint8_t motor)
 }
 
 void app_motor_control_servo(uint16_t adc0,
-														 uint16_t adc1,
-														 uint16_t adc2,
-														 uint16_t adc3)
+							 uint16_t adc1,
+							 uint16_t adc2,
+							 uint16_t adc3)
 {
 	adc_top			= adc0/2 + adc3/2;
 	adc_bottom 	= adc1/2 + adc2/2;

@@ -35,4 +35,5 @@ LCD_Result_t app_lcd_send_string (char *str);
 LCD_Result_t app_lcd_set_cursor (uint8_t x, uint8_t y);
 
 void lcd_send_cmd (char cmd);
+
 #endif

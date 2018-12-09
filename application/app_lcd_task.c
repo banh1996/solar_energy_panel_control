@@ -62,4 +62,5 @@ LCD_Result_t app_lcd_set_cursor (uint8_t x, uint8_t y)
 {
 	lcd_send_cmd(0x0c+x);
 	lcd_send_cmd(0x80+y);
+	return LCD_Ok;
 }

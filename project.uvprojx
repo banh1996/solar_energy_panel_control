@@ -711,6 +711,11 @@
               <FileType>1</FileType>
               <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_i2c.c</FilePath>
             </File>
+            <File>
+              <FileName>tm_stm32f4_watchdog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_watchdog.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -790,6 +795,11 @@
               <FileName>app_lcd_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_lcd_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_battery_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_battery_task.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1500,6 +1510,11 @@
               <FileType>1</FileType>
               <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_i2c.c</FilePath>
             </File>
+            <File>
+              <FileName>tm_stm32f4_watchdog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_watchdog.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1579,6 +1594,11 @@
               <FileName>app_lcd_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_lcd_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_battery_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_battery_task.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2289,6 +2309,11 @@
               <FileType>1</FileType>
               <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_i2c.c</FilePath>
             </File>
+            <File>
+              <FileName>tm_stm32f4_watchdog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_watchdog.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2368,6 +2393,11 @@
               <FileName>app_lcd_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_lcd_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_battery_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_battery_task.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3078,6 +3108,11 @@
               <FileType>1</FileType>
               <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_i2c.c</FilePath>
             </File>
+            <File>
+              <FileName>tm_stm32f4_watchdog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_watchdog.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -3157,6 +3192,11 @@
               <FileName>app_lcd_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_lcd_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_battery_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_battery_task.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3867,6 +3907,11 @@
               <FileType>1</FileType>
               <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_i2c.c</FilePath>
             </File>
+            <File>
+              <FileName>tm_stm32f4_watchdog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_watchdog.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -3946,6 +3991,11 @@
               <FileName>app_lcd_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_lcd_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_battery_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_battery_task.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -4656,6 +4706,11 @@
               <FileType>1</FileType>
               <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_i2c.c</FilePath>
             </File>
+            <File>
+              <FileName>tm_stm32f4_watchdog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_watchdog.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -4735,6 +4790,11 @@
               <FileName>app_lcd_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_lcd_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_battery_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_battery_task.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -5445,6 +5505,11 @@
               <FileType>1</FileType>
               <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_i2c.c</FilePath>
             </File>
+            <File>
+              <FileName>tm_stm32f4_watchdog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_watchdog.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -5524,6 +5589,11 @@
               <FileName>app_lcd_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_lcd_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_battery_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_battery_task.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -6235,6 +6305,11 @@
               <FileType>1</FileType>
               <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_i2c.c</FilePath>
             </File>
+            <File>
+              <FileName>tm_stm32f4_watchdog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_watchdog.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -6314,6 +6389,11 @@
               <FileName>app_lcd_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_lcd_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_battery_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_battery_task.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -7024,6 +7104,11 @@
               <FileType>1</FileType>
               <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_i2c.c</FilePath>
             </File>
+            <File>
+              <FileName>tm_stm32f4_watchdog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_watchdog.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -7103,6 +7188,11 @@
               <FileName>app_lcd_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_lcd_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_battery_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_battery_task.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -7813,6 +7903,11 @@
               <FileType>1</FileType>
               <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_i2c.c</FilePath>
             </File>
+            <File>
+              <FileName>tm_stm32f4_watchdog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\00-STM32F429_LIBRARIES\tm_stm32f4_watchdog.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -7892,6 +7987,11 @@
               <FileName>app_lcd_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\application\app_lcd_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_battery_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\application\app_battery_task.c</FilePath>
             </File>
           </Files>
         </Group>

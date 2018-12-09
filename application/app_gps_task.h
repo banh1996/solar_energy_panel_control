@@ -31,8 +31,8 @@ A9G_Result_t app_gps_init(uint32_t baudrate_usart);
 
 /* brief: function for get gps value at *str pointer
 */
-A9G_Result_t app_gps_get_value_and_send(void);
-
-A9G_Result_t app_gprs_send_data_to_sever(char *str_send);
+A9G_Result_t app_gps_get_value_and_send(float speed,
+										uint8_t battery_level,
+										float temper);
 
 #endif
