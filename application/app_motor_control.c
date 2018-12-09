@@ -8,6 +8,10 @@ static TM_PWM_TIM_t TIM3_Data;
 
 static uint16_t isforward_motor1 = 0;
 static uint16_t	isforward_motor2 = 0;
+static uint16_t adc0 = 0;
+static uint16_t adc1 = 0;
+static uint16_t adc2 = 0;
+static uint16_t adc3 = 0;
 static uint16_t adc_top = 0;
 static uint16_t adc_bottom = 0;
 static uint16_t adc_left = 0;
@@ -141,11 +145,12 @@ void app_motor_stop(uint8_t motor)
 	Delayms(10);
 }
 
-void app_motor_control_servo(uint16_t adc0,
-														 uint16_t adc1,
-														 uint16_t adc2,
-														 uint16_t adc3)
+void app_motor_control_servo(void)
 {
+	adc0 = app_photoresistor_read(ADC_Channel_10);
+	adc1 = app_photoresistor_read(ADC_Channel_11);
+	adc2 = app_photoresistor_read(ADC_Channel_12);
+	adc3 = app_photoresistor_read(ADC_Channel_13);
 	adc_top			= adc0/2 + adc3/2;
 	adc_bottom 	= adc1/2 + adc2/2;
 	adc_left 		= adc1/2 + adc3/2;

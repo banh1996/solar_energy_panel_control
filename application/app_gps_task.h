@@ -9,6 +9,7 @@
 #include "tm_stm32f4_usart.h"
 #include "tm_stm32f4_usart_dma.h"
 #include "stm32f4xx_usart.h"
+#include "app_motor_control.h"
 
 /**
  * @brief  A9G result enumeration	

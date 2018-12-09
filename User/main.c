@@ -101,13 +101,8 @@ int main(void)
 									 level_battery,
 									 MPU6050_data.Temperature);
 
-		
-		app_motor_control_servo(app_photoresistor_read(ADC_Channel_10),
-								app_photoresistor_read(ADC_Channel_11),
-								app_photoresistor_read(ADC_Channel_12),
-								app_photoresistor_read(ADC_Channel_13));
+		app_motor_control_servo();
 								
-		
 		/* Little delay */
 		TM_WATCHDOG_Reset();
 		Delayms(250);

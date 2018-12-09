@@ -25,8 +25,8 @@ static bool app_gps_request_and_get_reply(char *str_request,
 							 	  		  char *str_reply_expect, 
 								   		  uint16_t len_reply_expect)
 {
-	char receive_data_temp[200];
-	memset(receive_data_temp, 0, 200);
+	char receive_data_temp[100];
+	memset(receive_data_temp, 0, sizeof(receive_data_temp));
 	timeout_flag = false;
 	TM_DELAY_TimerStart(timeout_timer);
 
@@ -37,13 +37,15 @@ static bool app_gps_request_and_get_reply(char *str_request,
 	
 	do
 	{
+		app_motor_control_servo();
 		usart_get_str(receive_data_temp, sizeof(receive_data_temp));
 	}
 	while(memcmp(receive_data_temp, str_reply_expect, len_reply_expect) && !timeout_flag);
-	TM_USART_ClearBuffer(USART1);
+	
 	TM_DELAY_TimerStop(timeout_timer);
 	TM_DELAY_TimerReset(timeout_timer);
-	
+	TM_USART_ClearBuffer(USART1);
+
 	return !timeout_flag;
 }
 
@@ -60,6 +62,7 @@ static A9G_Result_t app_gprs_send_data_to_sever(char *str_send)
 		sprintf(temp_str, "AT+CIPSTART=\"TCP\",\"%s\",3000\r\n", IP_SERVER);	
 		if(app_gps_request_and_get_reply(temp_str, "OK\r\n", 4) == false)
 		{
+			usart_send_str("AT+RST=1\r\n");//reset
 			return A9G_Cant_connect_server;
 		}
 	}
@@ -111,7 +114,7 @@ static A9G_Result_t app_gprs_send_data_to_sever(char *str_send)
 
 A9G_Result_t app_gps_init(uint32_t baudrate_usart)
 {
-	/* Timer has reload value each 5s, disabled auto reload feature*/
+	/* Timer has reload value each 10s, disabled auto reload feature*/
 	timeout_timer = TM_DELAY_TimerCreate(10000, 0, 0, timeout_handler, NULL);
 
 	/* Init USART1 on pins TX = PB6, RX = PB7 */
@@ -121,7 +124,9 @@ A9G_Result_t app_gps_init(uint32_t baudrate_usart)
 	TM_USART_DMA_Init(USART1);
 
 	usart_send_str("AT+RST=1\r\n");//reset
-	Delayms(11000);
+	Delayms(10000);
+
+	TM_USART_ClearBuffer(USART1);
 
 	if(app_gps_request_and_get_reply("AT\r\n", "OK\r\n", 4) == false)
 	{
@@ -139,7 +144,8 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 	
 	memset(gps_data, 0, sizeof(gps_data));
 	memset(temp_str, 0, sizeof(temp_str));
-	
+	TM_USART_ClearBuffer(USART1);
+
 	if(app_gps_request_and_get_reply("AT+GPS=1\r\n", "OK\r\n", 4) == false)
 	{
 		return A9G_GPS_Error;
@@ -162,8 +168,6 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 	TM_DELAY_TimerReset(timeout_timer);
 	TM_USART_ClearBuffer(USART1);
 
-	//usart_send_str("AT+CIPCLOSE\r\n");
-
 	if(timeout_flag == true)
 	{
 		return A9G_GPS_Error;
@@ -175,6 +179,9 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 		sprintf(&gps_data[strlen(gps_data)], "&Speed=%0.2f", speed);
 		sprintf(&gps_data[strlen(gps_data)], "&Capacity=%d", battery_level);
 		sprintf(&gps_data[strlen(gps_data)], "&Temp=%0.1f", temper);
+
+		TM_USART_ClearBuffer(USART1);
+		
 		return app_gprs_send_data_to_sever(gps_data);
 	}
 }
