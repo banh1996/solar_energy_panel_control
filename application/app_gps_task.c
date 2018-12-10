@@ -143,17 +143,14 @@ static A9G_Result_t app_gprs_send_data_to_sever(char *str_send)
 	sprintf(temp_str, "%s%c", str_send, 0x1A);
 	Delayms(100);
 
-	usart_send_str(temp_str);
-	Delayms(100);
-	return A9G_Ok;
-	// if(app_gps_request_and_get_reply(temp_str, "Send successfully.\r\n", 20) == true)
-	// {
-	// 	return A9G_Ok;
-	// }
-	// else
-	// {
-	// 	return A9G_Send_Fail;
-	// }
+	if(app_gps_request_and_get_reply(temp_str, "Send successfully.\r\n", 20) == true)
+	{
+		return A9G_Ok;
+	}
+	else
+	{
+		return A9G_Send_Fail;
+	}
 }
 
 A9G_Result_t app_gps_init(uint32_t baudrate_usart)
