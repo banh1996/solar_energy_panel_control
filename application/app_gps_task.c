@@ -40,9 +40,10 @@ static bool app_gps_request_and_get_reply(char *str_request,
 		usart_get_str(receive_data_temp, sizeof(receive_data_temp));
 	}
 	while(memcmp(receive_data_temp, str_reply_expect, len_reply_expect) && !timeout_flag);
-	TM_USART_ClearBuffer(USART1);
+
 	TM_DELAY_TimerStop(timeout_timer);
 	TM_DELAY_TimerReset(timeout_timer);
+	TM_USART_ClearBuffer(USART1);
 	
 	return !timeout_flag;
 }
@@ -60,6 +61,7 @@ static A9G_Result_t app_gprs_send_data_to_sever(char *str_send)
 		sprintf(temp_str, "AT+CIPSTART=\"TCP\",\"%s\",3000\r\n", IP_SERVER);	
 		if(app_gps_request_and_get_reply(temp_str, "OK\r\n", 4) == false)
 		{
+			usart_send_str("AT+RST=1\r\n");
 			return A9G_Cant_connect_server;
 		}
 	}
@@ -121,8 +123,9 @@ A9G_Result_t app_gps_init(uint32_t baudrate_usart)
 	TM_USART_DMA_Init(USART1);
 
 	usart_send_str("AT+RST=1\r\n");//reset
-	Delayms(11000);
-
+	Delayms(10000);
+	TM_USART_ClearBuffer(USART1);
+	
 	if(app_gps_request_and_get_reply("AT\r\n", "OK\r\n", 4) == false)
 	{
 		return A9G_Device_Not_Available;
