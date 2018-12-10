@@ -3,15 +3,27 @@
 static bool 		motor1_flag = false;
 static bool 		motor2_flag = false;
 
+static TM_DELAY_Timer_t* 	duration_timer;
+
 static TM_PWM_TIM_t TIM2_Data;
 static TM_PWM_TIM_t TIM3_Data;
 
 static uint16_t isforward_motor1 = 0;
 static uint16_t	isforward_motor2 = 0;
+static uint16_t adc0 = 0;
+static uint16_t adc1 = 0;
+static uint16_t adc2 = 0;
+static uint16_t adc3 = 0;
 static uint16_t adc_top = 0;
 static uint16_t adc_bottom = 0;
 static uint16_t adc_left = 0;
 static uint16_t adc_right = 0;
+
+static void off_motor_handler(void* UserParameters) 
+{
+	app_motor_stop(MOTOR1);
+	app_motor_stop(MOTOR2);
+}
 
 void app_motor_init(uint16_t frequency)
 {
@@ -21,12 +33,15 @@ void app_motor_init(uint16_t frequency)
 	TM_PWM_InitTimer(TIM2, &TIM2_Data, frequency);
 	TM_PWM_InitTimer(TIM3, &TIM3_Data, frequency);
 	
+	/* Timer has reload value each 1s, disabled auto reload feature*/
+	duration_timer = TM_DELAY_TimerCreate(1000, 0, 0, off_motor_handler, NULL);
+
 	TM_GPIO_Init(GPIOA, 
-							 GPIO_Pin_1 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7, 
-							 TM_GPIO_Mode_OUT, 
-								TM_GPIO_OType_PP, 	
-	TM_GPIO_PuPd_NOPULL, 
-	TM_GPIO_Speed_High);
+				 GPIO_Pin_1 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7, 
+				 TM_GPIO_Mode_OUT, 
+				 TM_GPIO_OType_PP, 	
+				 TM_GPIO_PuPd_NOPULL, 
+				 TM_GPIO_Speed_High);
 
 	TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_1);//PA1
 	TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_5);//PA5
@@ -141,16 +156,19 @@ void app_motor_stop(uint8_t motor)
 	Delayms(10);
 }
 
-void app_motor_control_servo(uint16_t adc0,
-														 uint16_t adc1,
-														 uint16_t adc2,
-														 uint16_t adc3)
+void app_motor_control_servo(void)
 {
+	adc0 = app_photoresistor_read(ADC_Channel_10);
+	adc1 = app_photoresistor_read(ADC_Channel_11);
+	adc2 = app_photoresistor_read(ADC_Channel_12);
+	adc3 = app_photoresistor_read(ADC_Channel_13);
 	adc_top			= adc0/2 + adc3/2;
 	adc_bottom 	= adc1/2 + adc2/2;
 	adc_left 		= adc1/2 + adc3/2;
 	adc_right 	= adc0/2 + adc2/2;
 	
+	TM_DELAY_TimerStart(duration_timer);
+
 	if(abs(adc_top - adc_bottom) < STOP_THRESHOLD)
 	{
 		app_motor_stop(MOTOR1);

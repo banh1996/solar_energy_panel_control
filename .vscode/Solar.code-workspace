@@ -14,7 +14,11 @@
 			"tm_stm32f4_delay.h": "c",
 			"app_mpu6050_task.h": "c",
 			"app_lcd_task.h": "c",
-			"app_battery_task.h": "c"
+			"app_battery_task.h": "c",
+			"app_gps_task.h": "c",
+			"tm_stm32f4_usart.h": "c",
+			"tm_stm32f4_pwm.h": "c",
+			"tm_stm32f4_usart_dma.h": "c"
 		}
 	}
 }

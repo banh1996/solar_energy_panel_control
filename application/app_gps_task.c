@@ -25,8 +25,8 @@ static bool app_gps_request_and_get_reply(char *str_request,
 							 	  		  char *str_reply_expect, 
 								   		  uint16_t len_reply_expect)
 {
-	char receive_data_temp[200];
-	memset(receive_data_temp, 0, 200);
+	char receive_data_temp[100];
+	memset(receive_data_temp, 0, sizeof(receive_data_temp));
 	timeout_flag = false;
 	TM_DELAY_TimerStart(timeout_timer);
 
@@ -44,8 +44,45 @@ static bool app_gps_request_and_get_reply(char *str_request,
 	TM_DELAY_TimerStop(timeout_timer);
 	TM_DELAY_TimerReset(timeout_timer);
 	TM_USART_ClearBuffer(USART1);
-	
+
 	return !timeout_flag;
+}
+
+static uint8_t app_gps_wait_connect_server(void)
+{
+	char receive_data_temp[100];
+
+	usart_send_str("AT+CIPSTATUS=0\r\n");
+
+	memset(receive_data_temp, 0, sizeof(receive_data_temp));
+	timeout_flag = false;
+	TM_DELAY_TimerStart(timeout_timer);	
+	
+	do
+	{
+		usart_get_str(receive_data_temp, sizeof(receive_data_temp));
+	}
+	while(memcmp(receive_data_temp, "+CIPSTATUS:0,CONNECT OK", 23) &&
+		  memcmp(receive_data_temp, "+CIPSTATUS:0,IP INITIAL", 23) &&
+		  !timeout_flag);
+
+	TM_DELAY_TimerStop(timeout_timer);
+	TM_DELAY_TimerReset(timeout_timer);
+	TM_USART_ClearBuffer(USART1);
+
+	if(timeout_flag)
+	{
+		return 0;
+	}
+	else if(memcmp(receive_data_temp, "+CIPSTATUS:0,CONNECT OK", 23) == 0)
+	{
+		return 1;
+	}
+	else if(memcmp(receive_data_temp, "+CIPSTATUS:0,IP INITIAL", 23) == 0)
+	{
+		return 2;
+	}
+	return 0;
 }
 
 static A9G_Result_t app_gprs_send_data_to_sever(char *str_send)
@@ -53,10 +90,14 @@ static A9G_Result_t app_gprs_send_data_to_sever(char *str_send)
 	char temp_str[100];
 	uint32_t len_data_send = strlen(str_send);
 
-	if(app_gps_request_and_get_reply("AT+CIPSTATUS=0\r\n", "+CIPSTATUS:0,CONNECT OK", 23) == false)
+	uint8_t temp_check = app_gps_wait_connect_server();
+	if(temp_check == 0)
 	{
-		usart_send_str("AT+CIPCLOSE\r\n");
-		Delayms(100);
+		usart_send_str("AT+RST=1\r\n");
+		return A9G_Cant_connect_server;
+	}
+	else if(temp_check == 2)
+	{
 		memset(temp_str, 0, sizeof(temp_str));
 		sprintf(temp_str, "AT+CIPSTART=\"TCP\",\"%s\",3000\r\n", IP_SERVER);	
 		if(app_gps_request_and_get_reply(temp_str, "OK\r\n", 4) == false)
@@ -100,21 +141,25 @@ static A9G_Result_t app_gprs_send_data_to_sever(char *str_send)
 
 	memset(temp_str, 0, sizeof(temp_str));
 	sprintf(temp_str, "%s%c", str_send, 0x1A);
+	Delayms(100);
 
-	if(app_gps_request_and_get_reply(temp_str, "Send successfully.\r\n", 20) == true)
-	{
-		return A9G_Ok;
-	}
-	else
-	{
-		return A9G_Send_Fail;
-	}
+	usart_send_str(temp_str);
+	Delayms(100);
+	return A9G_Ok;
+	// if(app_gps_request_and_get_reply(temp_str, "Send successfully.\r\n", 20) == true)
+	// {
+	// 	return A9G_Ok;
+	// }
+	// else
+	// {
+	// 	return A9G_Send_Fail;
+	// }
 }
 
 A9G_Result_t app_gps_init(uint32_t baudrate_usart)
 {
-	/* Timer has reload value each 5s, disabled auto reload feature*/
-	timeout_timer = TM_DELAY_TimerCreate(10000, 0, 0, timeout_handler, NULL);
+	/* Timer has reload value each 8s, disabled auto reload feature*/
+	timeout_timer = TM_DELAY_TimerCreate(8000, 0, 0, timeout_handler, NULL);
 
 	/* Init USART1 on pins TX = PB6, RX = PB7 */
 	/* This pins are used on Nucleo boards for USB to UART via ST-Link */
@@ -124,6 +169,7 @@ A9G_Result_t app_gps_init(uint32_t baudrate_usart)
 
 	usart_send_str("AT+RST=1\r\n");//reset
 	Delayms(10000);
+
 	TM_USART_ClearBuffer(USART1);
 	
 	if(app_gps_request_and_get_reply("AT\r\n", "OK\r\n", 4) == false)
@@ -142,7 +188,8 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 	
 	memset(gps_data, 0, sizeof(gps_data));
 	memset(temp_str, 0, sizeof(temp_str));
-	
+	TM_USART_ClearBuffer(USART1);
+
 	if(app_gps_request_and_get_reply("AT+GPS=1\r\n", "OK\r\n", 4) == false)
 	{
 		return A9G_GPS_Error;
@@ -165,8 +212,6 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 	TM_DELAY_TimerReset(timeout_timer);
 	TM_USART_ClearBuffer(USART1);
 
-	//usart_send_str("AT+CIPCLOSE\r\n");
-
 	if(timeout_flag == true)
 	{
 		return A9G_GPS_Error;
@@ -178,6 +223,9 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 		sprintf(&gps_data[strlen(gps_data)], "&Speed=%0.2f", speed);
 		sprintf(&gps_data[strlen(gps_data)], "&Capacity=%d", battery_level);
 		sprintf(&gps_data[strlen(gps_data)], "&Temp=%0.1f", temper);
+
+		TM_USART_ClearBuffer(USART1);
+		
 		return app_gprs_send_data_to_sever(gps_data);
 	}
 }
