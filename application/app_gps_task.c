@@ -21,9 +21,9 @@ static void timeout_handler(void* UserParameters)
 	timeout_flag = true;
 }
 
-static bool app_gps_request_and_get_reply(char *str_request,
-							 	  		  char *str_reply_expect, 
-								   		  uint16_t len_reply_expect)
+static A9G_Result_t app_gps_request_and_get_reply(char *str_request,
+												  char *str_reply_expect, 
+												  uint16_t len_reply_expect)
 {
 	char receive_data_temp[100];
 	memset(receive_data_temp, 0, sizeof(receive_data_temp));
