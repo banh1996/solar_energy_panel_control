@@ -33,12 +33,15 @@ typedef enum
 typedef enum 
 {
 	A9G_State_Waiting = 0x00,    
+	A9G_State_Request_Reset,
 	A9G_State_Send_Comand_GPS,  
 	A9G_State_Send_Comand_Location,
 	A9G_State_Getting_GPS,
 	A9G_State_Checking_Server_Connection,
-	A9G_State_Sending_GPS,
-
+	A9G_State_Request_Connect,
+	A9G_State_Start_Sending_GPS,
+	A9G_State_Waiting_Reply_Server
+	
 } A9G_state_t;
 
 /* brief: function for init GPS module
