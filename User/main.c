@@ -83,7 +83,7 @@ int main(void)
 	{
 		/* Read all data from sensor */
 		app_mpu6050_ReadAll(&MPU6050_data);
-		
+		MPU6050_data.Temperature -= 8;//calib
 		/* Format data */		
 			// sprintf(str, 
 			// 		"Accelerometer\n- X:%0.3f\n- Y:%0.3f\n- Z:%0.3f\nGyroscope\n- X:%0.3f\n- Y:%0.3f\n- Z:%0.3f\nTemperature\n- %3.4f\n\n\n",
