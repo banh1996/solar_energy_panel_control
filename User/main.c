@@ -105,6 +105,5 @@ int main(void)
 								
 		/* Little delay */
 		TM_WATCHDOG_Reset();
-		Delayms(250);
 	}
 }

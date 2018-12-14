@@ -34,7 +34,7 @@ void app_motor_init(uint16_t frequency)
 	TM_PWM_InitTimer(TIM3, &TIM3_Data, frequency);
 	
 	/* Timer has reload value each 1s, disabled auto reload feature*/
-	duration_timer = TM_DELAY_TimerCreate(1000, 0, 0, off_motor_handler, NULL);
+	duration_timer = TM_DELAY_TimerCreate(5000, 0, 0, off_motor_handler, NULL);
 
 	TM_GPIO_Init(GPIOA, 
 				 GPIO_Pin_1 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7, 

@@ -1,10 +1,11 @@
 #include "app_gps_task.h"
 
+#define 	IP_SERVER 		"123.20.86.36"
+
 static TM_DELAY_Timer_t* 	timeout_timer;
 static volatile bool		timeout_flag = false;
 static char 				gps_data[200];
-static char 				IP_SERVER[12] = "123.20.86.36";
-static char					g_receiver_data[200];
+static char					g_receiver_data[300];
 static uint8_t				g_len_receiver = 0;
 static bool					gb_waiting_receiver = false;
 static A9G_state_t			g_GPS_state_global = A9G_State_Waiting;
@@ -50,7 +51,7 @@ static A9G_Result_t app_gps_request_and_get_reply(char *str_request,
 		}
 		else
 		{
-			if(g_len_receiver > 100)
+			if(g_len_receiver > 200)
 			{
 				memset(g_receiver_data, 0, sizeof(g_receiver_data));
 				g_len_receiver = 0;
@@ -61,11 +62,12 @@ static A9G_Result_t app_gps_request_and_get_reply(char *str_request,
 	}
 	else
 	{
+		TM_USART_ClearBuffer(USART1);
 		if(memcmp(str_request, "NULL", 4))
 		{
+			Delayms(500);
 			usart_send_str(str_request);	
 		}
-		TM_USART_ClearBuffer(USART1);
 		memset(g_receiver_data, 0, sizeof(g_receiver_data));
 		TM_DELAY_TimerStart(timeout_timer);
 		timeout_flag = false;
@@ -147,33 +149,30 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 			if(g_result_GPS == A9G_Ok)
 			{
 				g_GPS_state_global = A9G_State_Request_Connect;
-				return A9G_Ok;
+			}
+			else if(g_result_GPS == A9G_Waiting_reply)
+			{
+				g_result_GPS = app_gps_request_and_get_reply("AT+CIPSTATUS=0\r\n", "+CIPSTATUS:0,CONNECT OK  \r\n", 27);
+				if(g_result_GPS == A9G_Ok)
+				{
+					g_GPS_state_global = A9G_State_Start_Sending_GPS;
+				}
 			}
 			
 			if(g_result_GPS == A9G_Receive_Not_Ok)
 			{
 				g_GPS_state_global = A9G_State_Request_Reset;
 			}
-			
-			g_result_GPS = app_gps_request_and_get_reply("NULL", "+CIPSTATUS:0,CONNECT OK  \r\n", 27);
-			if(g_result_GPS == A9G_Ok)
-			{
-				g_GPS_state_global = A9G_State_Start_Sending_GPS;
-				return A9G_Ok;
-			}
-			
-			if(g_result_GPS == A9G_Receive_Not_Ok)
-			{
-				g_GPS_state_global = A9G_State_Request_Reset;
-				return A9G_Receive_Not_Ok;
-			}
-			break;
+			return g_result_GPS;
 		}
 		case A9G_State_Request_Reset:
 		{
 			usart_send_str("AT+RST=1\r\n");
+			memset(g_receiver_data, 0, sizeof(g_receiver_data));
+			memset(gps_data, 0, sizeof(gps_data));
 			g_GPS_state_global = A9G_State_Waiting;
-			break;
+			Delayms(1000);
+			return A9G_Ok;
 		}
 		case A9G_State_Request_Connect:
 		{
@@ -189,14 +188,12 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 			{
 				g_GPS_state_global = A9G_State_Request_Reset;
 			}
-			break;
+			return g_result_GPS;
 		}
 		case A9G_State_Start_Sending_GPS:
 		{
 			usart_send_str("AT+CIPSEND\r\n");
-	
     		Delayms(50);
-
 			char temp_str[100];
 			uint32_t len_data_send = strlen(gps_data);
 			memset(temp_str, 0, sizeof(temp_str));
@@ -229,7 +226,7 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 			sprintf(temp_str, "%s%c", gps_data, 0x1A);
 			usart_send_str(temp_str);
 			g_GPS_state_global = A9G_State_Waiting_Reply_Server;
-			Delayms(10);
+			Delayms(30);
 			return A9G_Ok;
 		}
 		case A9G_State_Waiting_Reply_Server:
@@ -247,7 +244,7 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 				g_GPS_state_global = A9G_State_Send_Comand_GPS;
 				return A9G_Send_Fail;
 			}
-			break;
+			return g_result_GPS;
 		}
 		default:
 			break;
