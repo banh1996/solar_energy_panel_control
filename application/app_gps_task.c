@@ -132,7 +132,17 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 		}
 		case A9G_State_Getting_GPS:
 		{
-			if()
+	// 		timeout_flag = false;
+	// TM_DELAY_TimerStart(timeout_timer);
+	// do
+	// {
+	// 	usart_get_str(&temp_str[strlen(temp_str)], sizeof(temp_str) - strlen(temp_str));
+	// }
+	// while(memcmp(&temp_str[strlen(temp_str) - 4], "OK\r\n", 4) && !timeout_flag);
+
+	// TM_DELAY_TimerStop(timeout_timer);
+	// TM_DELAY_TimerReset(timeout_timer);
+	// TM_USART_ClearBuffer(USART1);
 			memcpy(gps_data, "Id=1&GPS=", 10);
 			memcpy(&gps_data[strlen(gps_data)], &g_receiver_data[17], strlen(g_receiver_data) - 23);
 			sprintf(&gps_data[strlen(gps_data)], "&Speed=%0.2f", speed);
