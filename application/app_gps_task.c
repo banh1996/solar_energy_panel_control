@@ -1,12 +1,13 @@
 #include "app_gps_task.h"
 
-#define 	IP_SERVER 		"123.20.86.36"
+#define 	IP_SERVER 		"14.187.104.182"
 
 static TM_DELAY_Timer_t* 	timeout_timer;
 static volatile bool		timeout_flag = false;
 static char 				gps_data[200];
 static char					g_receiver_data[300];
 static uint8_t				g_len_receiver = 0;
+static char					g_send_data[100];
 static bool					gb_waiting_receiver = false;
 static A9G_state_t			g_GPS_state_global = A9G_State_Waiting;
 static A9G_Result_t			g_result_GPS;
@@ -150,7 +151,8 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 			{
 				g_GPS_state_global = A9G_State_Request_Connect;
 			}
-			else if(g_result_GPS == A9G_Waiting_reply)
+			else if(g_result_GPS == A9G_Waiting_reply || 
+					g_result_GPS == A9G_Send_Already)
 			{
 				g_result_GPS = app_gps_request_and_get_reply("AT+CIPSTATUS=0\r\n", "+CIPSTATUS:0,CONNECT OK  \r\n", 27);
 				if(g_result_GPS == A9G_Ok)
@@ -170,6 +172,7 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 			usart_send_str("AT+RST=1\r\n");
 			memset(g_receiver_data, 0, sizeof(g_receiver_data));
 			memset(gps_data, 0, sizeof(gps_data));
+			memset(g_send_data, 0, sizeof(g_send_data));
 			g_GPS_state_global = A9G_State_Waiting;
 			Delayms(1000);
 			return A9G_Ok;
@@ -222,16 +225,15 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 			usart_send_str("Accept-Encoding: gzip, deflate\r\n");
 			usart_send_str("Accept-Language: vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5\r\n\r\n");
 
-			memset(temp_str, 0, sizeof(temp_str));
-			sprintf(temp_str, "%s%c", gps_data, 0x1A);
-			usart_send_str(temp_str);
+			memset(g_send_data, 0, sizeof(g_send_data));
+			sprintf(g_send_data, "%s%c", gps_data, 0x1A);
 			g_GPS_state_global = A9G_State_Waiting_Reply_Server;
 			Delayms(30);
 			return A9G_Ok;
 		}
 		case A9G_State_Waiting_Reply_Server:
 		{
-			g_result_GPS = app_gps_request_and_get_reply("NULL", "Send successfully.\r\n", 20);
+			g_result_GPS = app_gps_request_and_get_reply(g_send_data, "Send successfully.\r\n", 20);
 			if(g_result_GPS == A9G_Ok)
 			{
 				memset(gps_data, 0, sizeof(gps_data));
