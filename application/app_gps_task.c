@@ -6,7 +6,6 @@ static TM_DELAY_Timer_t* 	timeout_timer;
 static volatile bool		timeout_flag = false;
 static char 				gps_data[200];
 static char					g_receiver_data[300];
-static uint8_t				g_len_receiver = 0;
 static char					g_send_data[100];
 static bool					gb_waiting_receiver = false;
 static A9G_state_t			g_GPS_state_global = A9G_State_Waiting;
@@ -32,7 +31,6 @@ static A9G_Result_t app_gps_request_and_get_reply(char *str_request,
 												  char *str_reply_expect, 
 												  uint16_t len_reply_expect)
 {
-	g_len_receiver = strlen(g_receiver_data);
 	if(gb_waiting_receiver == true)
 	{
 		if((memcmp(g_receiver_data, str_reply_expect, len_reply_expect) && !timeout_flag) == false)
@@ -75,7 +73,7 @@ static A9G_Result_t app_gps_request_and_get_reply(char *str_request,
 A9G_Result_t app_gps_init(uint32_t baudrate_usart)
 {
 	/* Timer has reload value each 12.5s, disabled auto reload feature*/
-	timeout_timer = TM_DELAY_TimerCreate(12500, 0, 0, timeout_handler, NULL);
+	timeout_timer = TM_DELAY_TimerCreate(15000, 0, 0, timeout_handler, NULL);
 
 	/* Init USART1 on pins TX = PB6, RX = PB7 */
 	/* This pins are used on Nucleo boards for USB to UART via ST-Link */
@@ -115,74 +113,82 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 				g_GPS_state_global = A9G_State_Send_Comand_Location;
 				return A9G_Ok;
 			}
+			else if(g_result_GPS == A9G_Receive_Not_Ok)
+			{
+				g_GPS_state_global = A9G_State_Request_Reset;
+			}
 			break;
 		}
 		case A9G_State_Send_Comand_Location:
 		{
-			g_result_GPS = app_gps_request_and_get_reply("AT+LOCATION=2\r\n", "AT+LOCATION=2\r\n", 15);
-			if(g_result_GPS == A9G_Ok)
-			{	
-				g_GPS_state_global = A9G_State_Getting_GPS;
+			usart_send_str("AT+LOCATION=2\r\n");
+
+			memset(g_receiver_data, 0, sizeof(g_receiver_data));
+			timeout_flag = false;
+			TM_DELAY_TimerStart(timeout_timer);
+			do
+			{
+				usart_get_str(&g_receiver_data[strlen(g_receiver_data)], sizeof(g_receiver_data) - strlen(g_receiver_data));
 			}
-			else if(g_result_GPS == A9G_Receive_Not_Ok)
+			while(memcmp(&g_receiver_data[strlen(g_receiver_data) - 4], "OK\r\n", 4) && !timeout_flag);
+
+			TM_DELAY_TimerStop(timeout_timer);
+			TM_DELAY_TimerReset(timeout_timer);
+			TM_USART_ClearBuffer(USART1);
+		
+			if(timeout_flag == false)
 			{
 				g_GPS_state_global = A9G_State_Getting_GPS;
 			}
+			else
+			{
+				g_GPS_state_global = A9G_State_Send_Comand_GPS;
+			}
+
 			break;
 		}
 		case A9G_State_Getting_GPS:
 		{
-	// 		timeout_flag = false;
-	// TM_DELAY_TimerStart(timeout_timer);
-	// do
-	// {
-	// 	usart_get_str(&temp_str[strlen(temp_str)], sizeof(temp_str) - strlen(temp_str));
-	// }
-	// while(memcmp(&temp_str[strlen(temp_str) - 4], "OK\r\n", 4) && !timeout_flag);
-
-	// TM_DELAY_TimerStop(timeout_timer);
-	// TM_DELAY_TimerReset(timeout_timer);
-	// TM_USART_ClearBuffer(USART1);
 			memcpy(gps_data, "Id=1&GPS=", 10);
 			memcpy(&gps_data[strlen(gps_data)], &g_receiver_data[17], strlen(g_receiver_data) - 23);
 			sprintf(&gps_data[strlen(gps_data)], "&Speed=%0.2f", speed);
 			sprintf(&gps_data[strlen(gps_data)], "&Capacity=%d", battery_level);
 			sprintf(&gps_data[strlen(gps_data)], "&Temp=%0.1f", temper);
-			g_GPS_state_global = A9G_State_Checking_Server_Connection;
+			g_GPS_state_global = A9G_State_Request_Connect;
 			return A9G_Ok;
 		}
-		case A9G_State_Checking_Server_Connection:
-		{
-			g_result_GPS = app_gps_request_and_get_reply("AT+CIPSTATUS=0\r\n", "+CIPSTATUS:0,IP", 15);
-			if(g_result_GPS == A9G_Ok)
-			{
-				g_GPS_state_global = A9G_State_Request_Connect;
-			}
-			else if(g_result_GPS == A9G_Waiting_reply || 
-					g_result_GPS == A9G_Send_Already)
-			{
-				g_result_GPS = app_gps_request_and_get_reply("AT+CIPSTATUS=0\r\n", "+CIPSTATUS:0,CO", 15);
-				if(g_result_GPS == A9G_Ok)
-				{
-					g_GPS_state_global = A9G_State_Start_Sending_GPS;
-				}
-			}
+		// case A9G_State_Checking_Server_Connection:
+		// {
+		// 	g_result_GPS = app_gps_request_and_get_reply("AT+CIPSTATUS=0\r\n", "+CIPSTATUS:0,IP", 15);
+		// 	if(g_result_GPS == A9G_Ok)
+		// 	{
+		// 		g_GPS_state_global = A9G_State_Request_Connect;
+		// 	}
+		// 	else if(g_result_GPS == A9G_Waiting_reply || 
+		// 			g_result_GPS == A9G_Send_Already)
+		// 	{
+		// 		g_result_GPS = app_gps_request_and_get_reply("AT+CIPSTATUS=0\r\n", "+CIPSTATUS:0,CO", 15);
+		// 		if(g_result_GPS == A9G_Ok)
+		// 		{
+		// 			g_GPS_state_global = A9G_State_Start_Sending_GPS;
+		// 		}
+		// 	}
 			
-			if(g_result_GPS == A9G_Receive_Not_Ok)
-			{
-				g_GPS_state_global = A9G_State_Request_Reset;
-			}
-			return g_result_GPS;
-		}
+		// 	if(g_result_GPS == A9G_Receive_Not_Ok)
+		// 	{
+		// 		g_GPS_state_global = A9G_State_Request_Reset;
+		// 	}
+		// 	return g_result_GPS;
+		// }
 		case A9G_State_Request_Reset:
 		{
-			g_result_GPS = app_gps_request_and_get_reply("AT+RST=1\r\n", "+CREG: 1", 8);
+			g_result_GPS = app_gps_request_and_get_reply("AT+RST=1\r\n", "READY", 5);
 			if(g_result_GPS == A9G_Ok)
 			{
 				memset(g_receiver_data, 0, sizeof(g_receiver_data));
 				memset(gps_data, 0, sizeof(gps_data));
 				memset(g_send_data, 0, sizeof(g_send_data));
-				g_GPS_state_global = A9G_State_Waiting;
+				g_GPS_state_global = A9G_State_Send_Comand_GPS;
 				Delayms(1000);
 				TM_USART_ClearBuffer(USART1);
 			}
@@ -248,16 +254,23 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 			if(g_result_GPS == A9G_Ok)
 			{
 				memset(gps_data, 0, sizeof(gps_data));
-				g_GPS_state_global = A9G_State_Send_Comand_GPS;
+				g_GPS_state_global = A9G_State_Close_Connection;
 				return A9G_Ok;
 			}
 			else if(g_result_GPS == A9G_Receive_Not_Ok)
 			{
 				memset(gps_data, 0, sizeof(gps_data));
-				g_GPS_state_global = A9G_State_Send_Comand_GPS;
+				g_GPS_state_global = A9G_State_Close_Connection;
 				return A9G_Send_Fail;
 			}
 			return g_result_GPS;
+		}
+		case A9G_State_Close_Connection:
+		{
+			usart_send_str("AT+CIPCLOSE\r\n");
+			Delayms(500);
+			g_GPS_state_global = A9G_State_Send_Comand_GPS;
+			break;
 		}
 		default:
 			break;

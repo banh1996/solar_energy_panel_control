@@ -57,7 +57,7 @@ void app_motor_init(uint16_t frequency)
 
 void app_motor_start(uint8_t motor, uint16_t percent, bool isforward)
 {
-	TM_DELAY_TimerStart(duration_timer);
+	//TM_DELAY_TimerStart(duration_timer);
 	if(motor == MOTOR1 && !motor1_flag)
 	{
 		if(isforward)

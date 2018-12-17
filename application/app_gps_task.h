@@ -40,8 +40,8 @@ typedef enum
 	A9G_State_Checking_Server_Connection,
 	A9G_State_Request_Connect,
 	A9G_State_Start_Sending_GPS,
-	A9G_State_Waiting_Reply_Server
-	
+	A9G_State_Waiting_Reply_Server,
+	A9G_State_Close_Connection
 } A9G_state_t;
 
 /* brief: function for init GPS module
