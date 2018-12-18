@@ -1,7 +1,5 @@
 #include "app_motor_control.h"
 
-//static TM_DELAY_Timer_t* 	duration_timer;
-
 static TM_PWM_TIM_t TIM2_Data;
 static TM_PWM_TIM_t TIM3_Data;
 
@@ -16,40 +14,21 @@ static uint16_t adc_bottom = 0;
 static uint16_t adc_left = 0;
 static uint16_t adc_right = 0;
 
-//static void off_motor_handler(void* UserParameters) 
-//{
-//	app_motor_stop(MOTOR1);
-//	app_motor_stop(MOTOR2);
-//}
 
 void app_motor_init(uint16_t frequency)
 {
-	
-	/* Set PWM to 50Hz frequency on timer TIM2 */
-	/* 50Hz = 20ms = 20000us */
 	TM_PWM_InitTimer(TIM2, &TIM2_Data, frequency);
 	TM_PWM_InitTimer(TIM3, &TIM3_Data, frequency);
 	
-	/* Timer has reload value each 1s, disabled auto reload feature*/
-	//duration_timer = TM_DELAY_TimerCreate(5000, 0, 0, off_motor_handler, NULL);
-
-	TM_GPIO_Init(GPIOA, 
-				 GPIO_Pin_1 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7, 
-				 TM_GPIO_Mode_OUT, 
-				 TM_GPIO_OType_PP, 	
-				 TM_GPIO_PuPd_NOPULL, 
-				 TM_GPIO_Speed_High);
-
-	TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_1);//PA1
-	TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_5);//PA5
-	TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_6);//PA6
-	TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_7);//PA7
-	
 	/* Initialize PWM on TIM2, TIM3, Channel 1 and PinsPack = PA5,PA6 */
-	//TM_PWM_InitChannel(&TIM2_Data, TM_PWM_Channel_2, TM_PWM_PinsPack_1);//PA1
-	//TM_PWM_InitChannel(&TIM2_Data, TM_PWM_Channel_1, TM_PWM_PinsPack_2);//PA5
-	//TM_PWM_InitChannel(&TIM3_Data, TM_PWM_Channel_1, TM_PWM_PinsPack_1);//PA6
-	//TM_PWM_InitChannel(&TIM3_Data, TM_PWM_Channel_2, TM_PWM_PinsPack_1);//PA7
+	TM_PWM_InitChannel(&TIM2_Data, TM_PWM_Channel_2, TM_PWM_PinsPack_1);//PA1
+	TM_PWM_InitChannel(&TIM2_Data, TM_PWM_Channel_1, TM_PWM_PinsPack_2);//PA5
+	TM_PWM_InitChannel(&TIM3_Data, TM_PWM_Channel_1, TM_PWM_PinsPack_1);//PA6
+	TM_PWM_InitChannel(&TIM3_Data, TM_PWM_Channel_2, TM_PWM_PinsPack_1);//PA7
+	TM_PWM_SetChannelPercent(&TIM2_Data, TM_PWM_Channel_1, 0);
+	TM_PWM_SetChannelPercent(&TIM2_Data, TM_PWM_Channel_2, 0);
+	TM_PWM_SetChannelPercent(&TIM3_Data, TM_PWM_Channel_1, 0);
+	TM_PWM_SetChannelPercent(&TIM3_Data, TM_PWM_Channel_2, 0);
 }
 
 void app_motor_start(uint8_t motor, uint16_t percent, bool isforward)
@@ -57,89 +36,63 @@ void app_motor_start(uint8_t motor, uint16_t percent, bool isforward)
 	//TM_DELAY_TimerStart(duration_timer);
 	if(motor == MOTOR1 && g_state_motor1 == 0)
 	{
-		if(isforward)
-		{
-			g_state_motor1 = 1;	
-		}
-		else
-		{
-			g_state_motor1 = 2;
-		}
 		if(isforward == true)
 		{
-			TM_GPIO_Init(GPIOA, GPIO_Pin_5, TM_GPIO_Mode_OUT, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_High);
-			TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_5);//PA5
-			TM_PWM_InitChannel(&TIM2_Data, TM_PWM_Channel_2, TM_PWM_PinsPack_1);//PA1
-			TM_PWM_SetChannelPercent(&TIM2_Data, TM_PWM_Channel_2, percent);								
+			TM_PWM_SetChannelPercent(&TIM2_Data, TM_PWM_Channel_1, 0);//set PA5 -> GND	
+			Delayms(5);
+			TM_PWM_SetChannelPercent(&TIM2_Data, TM_PWM_Channel_2, percent);//on PA1			
+			g_state_motor1 = 1;						
 		}
 		else
 		{
-			TM_GPIO_Init(GPIOA, GPIO_Pin_1, TM_GPIO_Mode_OUT, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_High);
-			TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_1);//PA1
-			TM_PWM_InitChannel(&TIM2_Data, TM_PWM_Channel_1, TM_PWM_PinsPack_2);//PA5
-			TM_PWM_SetChannelPercent(&TIM2_Data, TM_PWM_Channel_1, percent);
+			TM_PWM_SetChannelPercent(&TIM2_Data, TM_PWM_Channel_2, 0);//set PA1 -> GND	
+			Delayms(5);
+			TM_PWM_SetChannelPercent(&TIM2_Data, TM_PWM_Channel_1, percent);//on PA5
+			g_state_motor1 = 2;
 		}		
 	}
 	else if(motor == MOTOR2 && g_state_motor2 == 0)
 	{
-		if(isforward)
-		{
-			g_state_motor2 = 1;	
-		}
-		else
-		{
-			g_state_motor2 = 2;
-		}
 		if(isforward == true)
 		{
-			TM_GPIO_Init(GPIOA, GPIO_Pin_7, TM_GPIO_Mode_OUT, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_High);
-			TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_7);//PA7
-			TM_PWM_InitChannel(&TIM3_Data, TM_PWM_Channel_1, TM_PWM_PinsPack_1);//PA6
+			TM_PWM_SetChannelPercent(&TIM3_Data, TM_PWM_Channel_2, 0);	//set PA7 -> GND	
 			Delayms(5);
-			TM_PWM_SetChannelPercent(&TIM3_Data, TM_PWM_Channel_1, percent);			
+			TM_PWM_SetChannelPercent(&TIM3_Data, TM_PWM_Channel_1, percent);//on PA6	
+			g_state_motor2 = 1;			
 		}
 		else
 		{
-			TM_GPIO_Init(GPIOA, GPIO_Pin_6, TM_GPIO_Mode_OUT, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_High);
-			TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_6);//PA6
-			TM_PWM_InitChannel(&TIM3_Data, TM_PWM_Channel_2, TM_PWM_PinsPack_1);//PA7
+			TM_PWM_SetChannelPercent(&TIM3_Data, TM_PWM_Channel_1, 0); //set PA6 -> GND
 			Delayms(5);
-			TM_PWM_SetChannelPercent(&TIM3_Data, TM_PWM_Channel_2, percent);
+			TM_PWM_SetChannelPercent(&TIM3_Data, TM_PWM_Channel_2, percent);//PA7
+			g_state_motor2 = 2;
 		}	
 	}
 }
 
 void app_motor_stop(uint8_t motor)
 {
-	if(motor == MOTOR1 && g_state_motor1 != 0)
+	if(motor == MOTOR1)
 	{
 		if(g_state_motor1 == 1)
 		{
 			TM_PWM_SetChannelPercent(&TIM2_Data, TM_PWM_Channel_2, 0);//PA1
-			TM_GPIO_Init(GPIOA, GPIO_Pin_1, TM_GPIO_Mode_OUT, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_High);
-			TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_1);//PA1
 		}
 		else if(g_state_motor1 == 2)
 		{
 			TM_PWM_SetChannelPercent(&TIM2_Data, TM_PWM_Channel_1, 0);//PA5
-			TM_GPIO_Init(GPIOA, GPIO_Pin_5, TM_GPIO_Mode_OUT, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_High);
-			TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_5);//PA5
 		}
 		g_state_motor1 = 0;
 	}
-	else if(motor == MOTOR2 && g_state_motor2 != 0)
+	else if(motor == MOTOR2)
 	{
 		if(g_state_motor2 == 1)
 		{
 			TM_PWM_SetChannelPercent(&TIM3_Data, TM_PWM_Channel_1, 0);//PA6
-			TM_GPIO_Init(GPIOA, GPIO_Pin_6, TM_GPIO_Mode_OUT, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_High);
-			TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_6);//PA6
 		}
 		else if(g_state_motor2 == 2)
 		{
 			TM_PWM_SetChannelPercent(&TIM3_Data, TM_PWM_Channel_2, 0);//PA7
-			TM_GPIO_Init(GPIOA, GPIO_Pin_7, TM_GPIO_Mode_OUT, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_High);
-			TM_GPIO_SetPinLow(GPIOA, GPIO_Pin_7);//PA7
 		}
 		g_state_motor2 = 0;
 	}
@@ -151,6 +104,16 @@ void app_motor_control_servo(void)
 	adc1 = app_photoresistor_read(ADC_Channel_11);
 	adc2 = app_photoresistor_read(ADC_Channel_12);
 	adc3 = app_photoresistor_read(ADC_Channel_13);
+	if(adc0 > 1600)
+	{
+		adc0 = adc0 - 70;
+	}
+	
+	if(adc3 > 1600)
+	{
+		adc0 = adc0 - 20;
+	}
+	
 	adc_top		= adc0/2 + adc3/2;
 	adc_bottom 	= adc1/2 + adc2/2;
 	adc_left 	= adc1/2 + adc3/2;

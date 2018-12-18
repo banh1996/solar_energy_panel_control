@@ -72,8 +72,8 @@ static A9G_Result_t app_gps_request_and_get_reply(char *str_request,
 
 A9G_Result_t app_gps_init(uint32_t baudrate_usart)
 {
-	/* Timer has reload value each 12.5s, disabled auto reload feature*/
-	timeout_timer = TM_DELAY_TimerCreate(15000, 0, 0, timeout_handler, NULL);
+	/* Timer has reload value each 13s, disabled auto reload feature*/
+	timeout_timer = TM_DELAY_TimerCreate(13000, 0, 0, timeout_handler, NULL);
 
 	/* Init USART1 on pins TX = PB6, RX = PB7 */
 	/* This pins are used on Nucleo boards for USB to UART via ST-Link */
@@ -157,29 +157,6 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 			g_GPS_state_global = A9G_State_Request_Connect;
 			return A9G_Ok;
 		}
-		// case A9G_State_Checking_Server_Connection:
-		// {
-		// 	g_result_GPS = app_gps_request_and_get_reply("AT+CIPSTATUS=0\r\n", "+CIPSTATUS:0,IP", 15);
-		// 	if(g_result_GPS == A9G_Ok)
-		// 	{
-		// 		g_GPS_state_global = A9G_State_Request_Connect;
-		// 	}
-		// 	else if(g_result_GPS == A9G_Waiting_reply || 
-		// 			g_result_GPS == A9G_Send_Already)
-		// 	{
-		// 		g_result_GPS = app_gps_request_and_get_reply("AT+CIPSTATUS=0\r\n", "+CIPSTATUS:0,CO", 15);
-		// 		if(g_result_GPS == A9G_Ok)
-		// 		{
-		// 			g_GPS_state_global = A9G_State_Start_Sending_GPS;
-		// 		}
-		// 	}
-			
-		// 	if(g_result_GPS == A9G_Receive_Not_Ok)
-		// 	{
-		// 		g_GPS_state_global = A9G_State_Request_Reset;
-		// 	}
-		// 	return g_result_GPS;
-		// }
 		case A9G_State_Request_Reset:
 		{
 			g_result_GPS = app_gps_request_and_get_reply("AT+RST=1\r\n", "READY", 5);

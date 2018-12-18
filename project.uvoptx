@@ -2673,6 +2673,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>g_state_motor1</ItemText>
         </Ww>
+        <Ww>
+          <count>14</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>g_state_motor2</ItemText>
+        </Ww>
       </WatchWindow1>
       <Tracepoint>
         <THDelay>0</THDelay>
