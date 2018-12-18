@@ -1,6 +1,6 @@
 #include "app_gps_task.h"
 
-#define 	IP_SERVER 		"14.187.104.182"
+#define 	IP_SERVER 		"123.20.243.33"
 
 static TM_DELAY_Timer_t* 	timeout_timer;
 static volatile bool		timeout_flag = false;
@@ -245,12 +245,13 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 			memset(g_send_data, 0, sizeof(g_send_data));
 			sprintf(g_send_data, "%s%c", gps_data, 0x1A);
 			g_GPS_state_global = A9G_State_Waiting_Reply_Server;
-			Delayms(30);
+			usart_send_str(g_send_data);
+			Delayms(10);
 			return A9G_Ok;
 		}
 		case A9G_State_Waiting_Reply_Server:
 		{
-			g_result_GPS = app_gps_request_and_get_reply(g_send_data, "Send successfully.\r\n", 20);
+			g_result_GPS = app_gps_request_and_get_reply("NULL", "Send successfully.\r\n", 20);
 			if(g_result_GPS == A9G_Ok)
 			{
 				memset(gps_data, 0, sizeof(gps_data));

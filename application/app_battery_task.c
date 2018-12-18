@@ -2,7 +2,7 @@
 
 static uint16_t raw_data = 0;
 static uint32_t real_m_volt = 0;
-static uint32_t V_DROP = 134;
+static uint32_t V_DROP = 0;
 
 static uint8_t change_mvolt_to_battery(uint32_t raw_data_m_volt)
 {
@@ -101,6 +101,6 @@ void app_battery_init(void)
 uint8_t app_battery_read(void)
 {
 	raw_data = TM_ADC_Read(ADC2, ADC_Channel_14);
-	real_m_volt = (uint32_t)raw_data*185/23 - V_DROP;
+	real_m_volt = (uint32_t)raw_data*31/5 + V_DROP;
 	return change_mvolt_to_battery(real_m_volt);
 }

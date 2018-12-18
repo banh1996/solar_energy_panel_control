@@ -2646,32 +2646,32 @@
         <Ww>
           <count>8</count>
           <WinNumber>1</WinNumber>
-          <ItemText>adc_top,0x0A</ItemText>
+          <ItemText>receive_data_temp</ItemText>
         </Ww>
         <Ww>
           <count>9</count>
           <WinNumber>1</WinNumber>
-          <ItemText>receive_data_temp</ItemText>
+          <ItemText>g_receiver_data</ItemText>
         </Ww>
         <Ww>
           <count>10</count>
           <WinNumber>1</WinNumber>
-          <ItemText>g_receiver_data</ItemText>
+          <ItemText>gps_data</ItemText>
         </Ww>
         <Ww>
           <count>11</count>
           <WinNumber>1</WinNumber>
-          <ItemText>gps_data</ItemText>
+          <ItemText>temp_str</ItemText>
         </Ww>
         <Ww>
           <count>12</count>
           <WinNumber>1</WinNumber>
-          <ItemText>temp_str</ItemText>
+          <ItemText>g_len_receiver,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>13</count>
           <WinNumber>1</WinNumber>
-          <ItemText>g_len_receiver,0x0A</ItemText>
+          <ItemText>g_state_motor1</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
