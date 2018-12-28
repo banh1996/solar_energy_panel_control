@@ -1,6 +1,6 @@
 #include "app_gps_task.h"
 
-#define 	IP_SERVER 		"123.20.243.33"
+#define 	IP_SERVER 		"123.20.92.208"
 
 static TM_DELAY_Timer_t* 	timeout_timer;
 static volatile bool		timeout_flag = false;
@@ -72,8 +72,8 @@ static A9G_Result_t app_gps_request_and_get_reply(char *str_request,
 
 A9G_Result_t app_gps_init(uint32_t baudrate_usart)
 {
-	/* Timer has reload value each 13s, disabled auto reload feature*/
-	timeout_timer = TM_DELAY_TimerCreate(13000, 0, 0, timeout_handler, NULL);
+	/* Timer has reload value each 22s, disabled auto reload feature*/
+	timeout_timer = TM_DELAY_TimerCreate(22000, 0, 0, timeout_handler, NULL);
 
 	/* Init USART1 on pins TX = PB6, RX = PB7 */
 	/* This pins are used on Nucleo boards for USB to UART via ST-Link */
@@ -159,7 +159,7 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 		}
 		case A9G_State_Request_Reset:
 		{
-			g_result_GPS = app_gps_request_and_get_reply("AT+RST=1\r\n", "READY", 5);
+			g_result_GPS = app_gps_request_and_get_reply("AT+RST=1\r\n", "+CREG: 1", 8);
 			if(g_result_GPS == A9G_Ok)
 			{
 				memset(g_receiver_data, 0, sizeof(g_receiver_data));
