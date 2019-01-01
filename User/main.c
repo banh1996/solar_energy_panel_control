@@ -29,13 +29,10 @@
 #include "app_lcd_task.h"
 #include "app_battery_task.h"
 
-//static uint16_t adc0 = 0;
-//static uint16_t adc1 = 0;
-//static uint16_t adc2 = 0;
-//static uint16_t adc3 = 0;
-static MPU6050_data_t MPU6050_data;
-static char str[100];
-static uint8_t level_battery = 0;
+static MPU6050_data_t	MPU6050_data;
+static char 		  	str[100];
+static char				str_MPU[100];
+static uint8_t 			level_battery = 0;
 
 int main(void) 
 {
@@ -52,15 +49,20 @@ int main(void)
 	app_motor_init(10);//10hz	
 	app_photoresistor_init();
 	app_battery_init();
-	app_gps_init(115200);
-	
-	TM_USART_Init(USART2, TM_USART_PinsPack_1, 115200);
+
+	TM_USART_Init(USART2, TM_USART_PinsPack_1, 115200);//pa2, pa3
 	TM_USART_Puts(USART2, "test uart 2\r\n");
+
+	app_gps_init(115200);
+
+
 	if (app_mpu_6050_init(MPU6050_Accelerometer_2G, MPU6050_Gyroscope_250s) != MPU6050_Ok) 
 	{
 		TM_USART_Puts(USART2, "MPU6050 Error\n");
 	}
-	level_battery = app_battery_read();
+
+	app_battery_read(&level_battery);
+
 	if(app_lcd_init() != LCD_Ok)
 	{
 		TM_USART_Puts(USART2, "LCD Error\n");
@@ -68,14 +70,15 @@ int main(void)
 	else
 	{
 		lcd_send_cmd(0x01);
-		sprintf(str, "Battery_level : %d", level_battery);
-		Delayms(1000);
+		sprintf(str, "59-V2 __ 497.09     Battery level: %d", level_battery);
+		str[strlen(str)] = '%';
+		Delayms(800);
 		app_lcd_send_string(str);
-		Delayms(1000);
+		Delayms(900);
 	}
 	
 	/* Initialize watchdog timer */
-	/* Set timeout to 16s */
+	/* Set timeout to 32s */
 	/* If we are in debug mode, watchdog won't start even if we enable it */
 	TM_WATCHDOG_Init(TM_WATCHDOG_Timeout_32s);
 	
@@ -83,19 +86,27 @@ int main(void)
 	{
 		/* Read all data from sensor */
 		app_mpu6050_ReadAll(&MPU6050_data);
-		MPU6050_data.Temperature -= 8;//calib
+		//MPU6050_data.Temperature;//calib
 		/* Format data */		
-			// sprintf(str, 
-			// 		"Accelerometer\n- X:%0.3f\n- Y:%0.3f\n- Z:%0.3f\nGyroscope\n- X:%0.3f\n- Y:%0.3f\n- Z:%0.3f\nTemperature\n- %3.4f\n\n\n",
-			// 		MPU6050_data.Accelerometer_X,
-			// 		MPU6050_data.Accelerometer_Y,
-			// 		MPU6050_data.Accelerometer_Z,
-			// 		MPU6050_data.Gyroscope_X,
-			// 		MPU6050_data.Gyroscope_Y,
-			// 		MPU6050_data.Gyroscope_Z,
-			// 		MPU6050_data.Temperature);
+		// sprintf(str_MPU, 
+		// 		"Accelerometer\n- X:%0.3f\n- Y:%0.3f\n- Z:%0.3f\nGyroscope\n- X:%0.3f\n- Y:%0.3f\n- Z:%0.3f\nTemperature\n- %3.4f\n\n\n",
+		// 		MPU6050_data.Accelerometer_X,
+		// 		MPU6050_data.Accelerometer_Y,
+		// 		MPU6050_data.Accelerometer_Z,
+		// 		MPU6050_data.Gyroscope_X,
+		// 		MPU6050_data.Gyroscope_Y,
+		// 		MPU6050_data.Gyroscope_Z,
+		// 		MPU6050_data.Temperature);
+		// TM_USART_Puts(USART2, str_MPU);
 
-		level_battery = app_battery_read();
+		if(app_battery_read(&level_battery) == true)
+		{
+			lcd_send_cmd(0x01);
+			sprintf(str, "59-V2 __ 497.09     Battery level: %d", level_battery);
+			str[strlen(str)] = '%';
+			Delayms(20);
+			app_lcd_send_string(str);
+		}
 
 		app_gps_get_value_and_send(1.3, 
 									 level_battery,
