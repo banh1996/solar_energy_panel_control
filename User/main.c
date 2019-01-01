@@ -50,10 +50,10 @@ int main(void)
 	app_photoresistor_init();
 	app_battery_init();
 
-	TM_USART_Init(USART2, TM_USART_PinsPack_1, 115200);//pa2, pa3
+	TM_USART_Init(USART2, TM_USART_PinsPack_1, 9600);//pa2, pa3
 	TM_USART_Puts(USART2, "test uart 2\r\n");
 
-	app_gps_init(115200);
+	app_gps_init(9600);
 
 
 	if (app_mpu_6050_init(MPU6050_Accelerometer_2G, MPU6050_Gyroscope_250s) != MPU6050_Ok) 
