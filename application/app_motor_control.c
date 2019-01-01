@@ -13,7 +13,7 @@ static uint16_t adc_top = 0;
 static uint16_t adc_bottom = 0;
 static uint16_t adc_left = 0;
 static uint16_t adc_right = 0;
-
+static uint16_t adc_behind = 0;
 
 void app_motor_init(uint16_t frequency)
 {
@@ -104,6 +104,17 @@ void app_motor_control_servo(void)
 	adc1 = app_photoresistor_read(ADC_Channel_11);
 	adc2 = app_photoresistor_read(ADC_Channel_12);
 	adc3 = app_photoresistor_read(ADC_Channel_13);
+	adc_behind = app_photoresistor_read(ADC_Channel_15);
+
+	if(adc0 > 3500 && adc1 > 3500 && adc2> 3500 && adc3 > 3500 && adc_behind < 2900)
+	{
+		app_motor_start(MOTOR1, SPEED_PERCENT_1, false);
+	}
+	else if(adc0 > 3500 && adc1 > 3500 && adc2> 3500 && adc3 > 3500 && adc_behind > 3500)
+	{
+		app_motor_stop(MOTOR1);
+	}
+
 	if(adc0 > 1600)
 	{
 		adc0 = adc0 - 70;

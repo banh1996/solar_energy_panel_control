@@ -189,6 +189,7 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 				TM_USART_DMA_Deinit(USART1);
 				TM_USART_Init(USART1, TM_USART_PinsPack_2, 115200);
 				TM_USART_DMA_Init(USART1);
+				usart_send_str("AT+RST=1\r\n");
 				gb_send_reset_request_already_a9g = true;
 			}
 			else
@@ -216,10 +217,7 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 						Delayms(500);
 						TM_USART_ClearBuffer(USART1);
 						Delayms(50);
-						g_GPS_state_global = A9G_State_Send_Comand_GPS;
-						TM_USART_DMA_Deinit(USART1);
-						TM_USART_Init(USART1, TM_USART_PinsPack_2, global_bauderate);
-						TM_USART_DMA_Init(USART1);
+						g_GPS_state_global = A9G_State_Change_Bauderate;
 						gb_send_reset_request_already_a9g = false;
 						gb_ready_a9g = false;
 					}
@@ -237,6 +235,23 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 				}
 			}
 			return g_result_GPS;
+		}
+		case A9G_State_Change_Bauderate:
+		{
+			g_result_GPS = app_gps_request_and_get_reply("AT+IPR=9600\r\n", "OK\r\n", 4);
+			if(g_result_GPS == A9G_Ok)
+			{
+				TM_USART_DMA_Deinit(USART1);
+				TM_USART_Init(USART1, TM_USART_PinsPack_2, global_bauderate);
+				TM_USART_DMA_Init(USART1);
+				g_GPS_state_global = A9G_State_Send_Comand_GPS;
+				return A9G_Ok;
+			}
+			else if(g_result_GPS == A9G_Receive_Not_Ok)
+			{
+				g_GPS_state_global = A9G_State_Request_Reset;
+			}
+			break;
 		}
 		case A9G_State_Request_Connect:
 		{

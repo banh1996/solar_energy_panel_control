@@ -128,6 +128,7 @@ bool app_battery_read(uint8_t *bat_level)
 	*bat_level = change_mvolt_to_battery(real_m_volt);
 	if(*bat_level >= previous_bat)
 	{
+		*bat_level = previous_bat;
 		return false;
 	}
 	else
