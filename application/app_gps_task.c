@@ -1,12 +1,17 @@
 #include "app_gps_task.h"
 
 #define 	IP_SERVER 		"123.20.92.208"
+#define 	PHONE_NUMBER	"+84981662901"
 
 static TM_DELAY_Timer_t* 	timeout_timer;
 static volatile bool		timeout_flag = false;
+static bool					gb_finish_send_server_flag = false;
+static bool					gb_alarm_flag = false;
 static char 				gps_data[250];
 static char					g_receiver_data[300];
 static char					g_send_data[100];
+static char					g_send_SMS[50];
+static char					SMS[100];
 static bool					gb_waiting_receiver = false;
 static bool					gb_ready_a9g = false;
 static bool					gb_send_reset_request_already_a9g = false;
@@ -38,7 +43,7 @@ static A9G_Result_t app_gps_request_and_get_reply(char *str_request,
 	{
 		if((memcmp(g_receiver_data, str_reply_expect, len_reply_expect) && !timeout_flag) == false)
 		{
-			TM_USART_ClearBuffer(USART1);
+			//TM_USART_ClearBuffer(USART1);
 			gb_waiting_receiver = false;
 			if(timeout_flag)
 			{
@@ -104,7 +109,10 @@ A9G_Result_t app_gps_init(uint32_t baudrate_usart)
 	TM_USART_DMA_Deinit(USART1);
 	TM_USART_Init(USART1, TM_USART_PinsPack_2, baudrate_usart);
 	TM_USART_DMA_Init(USART1);
-	
+
+	memset(g_send_SMS, 0, sizeof(g_send_SMS));
+	sprintf(g_send_SMS, "AT+CMGS=\"%s\"\r\n", PHONE_NUMBER);
+
 	while(app_gps_request_and_get_reply("AT&F\r\n", "OK\r\n", 4) != A9G_Ok)
 	;
 
@@ -119,7 +127,18 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 	{
 		case A9G_State_Waiting:
 		{
-			g_GPS_state_global = A9G_State_Send_Comand_GPS;
+			if(gb_alarm_flag == true)
+			{
+				if(gb_finish_send_server_flag == true)
+				{
+					g_GPS_state_global = A9G_State_Check_GSM;
+				}
+			}
+			else
+			{
+				g_GPS_state_global = A9G_State_Send_Comand_GPS;
+				gb_finish_send_server_flag = false;
+			}
 			return A9G_Ok;
 		}
 		case A9G_State_Send_Comand_GPS:
@@ -161,12 +180,12 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 				}
 				else
 				{
-					g_GPS_state_global = A9G_State_Send_Comand_GPS;
+					g_GPS_state_global = A9G_State_Waiting;
 				}
 			}
 			else if(g_result_GPS == A9G_Receive_Not_Ok)
 			{
-				g_GPS_state_global = A9G_State_Send_Comand_GPS;
+				g_GPS_state_global = A9G_State_Waiting;
 			}
 
 			break;
@@ -244,7 +263,7 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 				TM_USART_DMA_Deinit(USART1);
 				TM_USART_Init(USART1, TM_USART_PinsPack_2, global_bauderate);
 				TM_USART_DMA_Init(USART1);
-				g_GPS_state_global = A9G_State_Send_Comand_GPS;
+				g_GPS_state_global = A9G_State_Waiting;
 				return A9G_Ok;
 			}
 			else if(g_result_GPS == A9G_Receive_Not_Ok)
@@ -310,10 +329,17 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 		}
 		case A9G_State_Waiting_Reply_Server:
 		{
-			g_result_GPS = app_gps_request_and_get_reply("NULL", "Send successfully.\r\n", 20);
+			g_result_GPS = app_gps_request_and_get_reply("NULL", "Send Ok", 7);
 			if(g_result_GPS == A9G_Ok)
 			{
 				memset(gps_data, 0, sizeof(gps_data));
+				if(strlen(g_receiver_data) > 10)
+				{
+					memcpy(SMS, &g_receiver_data[8], strlen(g_receiver_data) - 10);
+					gb_alarm_flag = true;
+					Delayms(10);
+					SMS[strlen(SMS)] = 0x1A;
+				}
 				g_GPS_state_global = A9G_State_Close_Connection;
 				return A9G_Ok;
 			}
@@ -331,7 +357,39 @@ A9G_Result_t app_gps_get_value_and_send(float speed,
 
 			if(g_result_GPS == A9G_Ok || g_result_GPS == A9G_Receive_Not_Ok)
 			{
-				g_GPS_state_global = A9G_State_Send_Comand_GPS;
+				g_GPS_state_global = A9G_State_Waiting;
+				gb_finish_send_server_flag = true;
+			}
+			break;
+		}
+		case A9G_State_Check_GSM:
+		{
+			g_result_GPS = app_gps_request_and_get_reply("AT+CMGF=1\r\n", "OK\r\n", 4);
+			if(g_result_GPS == A9G_Ok)
+			{
+				g_GPS_state_global = A9G_State_Request_Send_Message;
+			}
+			else if(g_result_GPS == A9G_Receive_Not_Ok)
+			{
+				gb_alarm_flag = false;
+				g_GPS_state_global = A9G_State_Waiting;
+			}
+			break;
+		}
+		case A9G_State_Request_Send_Message:
+		{
+			usart_send_str(g_send_SMS);
+			Delayms(200);
+			g_GPS_state_global = A9G_State_Start_Sending_Message;
+			break;
+		}
+		case A9G_State_Start_Sending_Message:
+		{
+			g_result_GPS = app_gps_request_and_get_reply(SMS, "OK\r\n", 4);
+			if(g_result_GPS == A9G_Ok || g_result_GPS == A9G_Receive_Not_Ok)
+			{
+				gb_alarm_flag = false;
+				g_GPS_state_global = A9G_State_Waiting;
 			}
 			break;
 		}

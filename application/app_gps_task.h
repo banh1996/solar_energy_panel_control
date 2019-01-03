@@ -43,7 +43,10 @@ typedef enum
 	A9G_State_Waiting_Reply_Server,
 	A9G_State_Close_Connection,
 	A9G_State_Ready_After_Reset,
-	A9G_State_Change_Bauderate
+	A9G_State_Change_Bauderate,
+	A9G_State_Check_GSM,
+	A9G_State_Request_Send_Message,
+	A9G_State_Start_Sending_Message
 } A9G_state_t;
 
 /* brief: function for init GPS module
