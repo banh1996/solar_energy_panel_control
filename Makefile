@@ -1,4 +1,4 @@
-PROJECT_NAME := SMART_KEY
+PROJECT_NAME := SOLAR_PANEL
 
 export OUTPUT_FILENAME
 #MAKEFILE_NAME := $(CURDIR)/$(word $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST))
@@ -34,128 +34,59 @@ remduplicates = $(strip $(if $1,$(firstword $1) $(call remduplicates,$(filter-ou
 
 #source common to all targets
 C_SOURCE_FILES += \
-$(abspath application/main.c) \
-$(abspath application/app_button_control.c) \
-$(abspath application/app_gps_task.c) \
-$(abspath application/app_motor_control.c) \
-$(abspath application/app_photoresistor_sensor.c) \
-$(abspath application/app_led_control.c) \
-
+$(abspath ./User/main.c) \
+$(abspath ./application/app_button_control.c) \
+$(abspath ./application/app_gps_task.c) \
+$(abspath ./application/app_motor_control.c) \
+$(abspath ./application/app_photoresistor_sensor.c) \
+$(abspath ./application/app_led_control.c) \
+$(abspath ./application/app_mpu6050_task.c) \
+$(abspath ./application/app_lcd_task.c) \
+$(abspath ./application/app_battery_task.c) \
 
 #Library files
-C_SOURCE_FILES += $(abspath ../../components/libraries/util/app_error.c) \
-$(abspath nRF/CMSIS/Device/Src/system_nrf52.c) \
-$(abspath ../../components/libraries/util/app_error_handler_gcc.c) \
-$(abspath ../../components/libraries/util/app_error_weak.c) \
-$(abspath ../../components/libraries/timer/app_timer.c) \
-$(abspath ../../components/libraries/button/app_button.c) \
-$(abspath ../../components/libraries/util/app_util_platform.c) \
-$(abspath ../../components/libraries/util/nrf_assert.c) \
-$(abspath ../../components/libraries/strerror/nrf_strerror.c) \
-$(abspath ../../components/libraries/atomic/nrf_atomic.c) \
-$(abspath ../../modules/nrfx/drivers/src/nrfx_clock.c) \
-$(abspath ../../modules/nrfx/drivers/src/nrfx_power_clock.c) \
-$(abspath ../../modules/nrfx/drivers/src/nrfx_power.c) \
-$(abspath ../../modules/nrfx/drivers/src/nrfx_gpiote.c) \
-$(abspath ../../modules/nrfx/drivers/src/nrfx_timer.c) \
-$(abspath ../../components/libraries/experimental_memobj/nrf_memobj.c) \
-$(abspath ../../components/libraries/balloc/nrf_balloc.c) \
-$(abspath ../../external/fprintf/nrf_fprintf.c) \
-$(abspath ../../external/fprintf/nrf_fprintf_format.c) \
-$(abspath ../../components/libraries/atomic_flags/nrf_atflags.c) \
-$(abspath ../../components/libraries/fds/fds.c) \
-$(abspath ../../components/libraries/atomic_fifo/nrf_atfifo.c) \
-$(abspath ../../components/libraries/experimental_section_vars/nrf_section_iter.c) \
-$(abspath ../../components/libraries/pwr_mgmt/nrf_pwr_mgmt.c) \
+C_SOURCE_FILES += $(abspath ../00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS/STM32F4xx_StdPeriph_Driver/src/misc.c) \
+$(abspath ../00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_rcc.c) \
+$(abspath ../00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_gpio.c) \
+$(abspath ../00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_dma.c) \
+$(abspath ../00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_usart.c) \
+$(abspath ../00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_adc.c) \
+$(abspath ../00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_tim.c) \
+$(abspath ../00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_i2c.c) \
 
-#Segger files an
-C_SOURCE_FILES += $(abspath SeggerRTT/SEGGER_RTT.c) \
-$(abspath SeggerRTT/SEGGER_RTT_Syscalls_GCC.c) \
-$(abspath SeggerRTT/SEGGER_RTT_printf.c) 
+#TM lib
+C_SOURCE_FILES += $(abspath ../00-STM32F429_LIBRARIES/tm_stm32f4_delay.c) \
+$(abspath ../00-STM32F429_LIBRARIES/tm_stm32f4_disco.c) \
+$(abspath ../00-STM32F429_LIBRARIES/tm_stm32f4_gpio.c 
+$(abspath ../00-STM32F429_LIBRARIES/tm_stm32f4_dma.c) \
+$(abspath ../00-STM32F429_LIBRARIES/tm_stm32f4_usart.c) \
+$(abspath ../00-STM32F429_LIBRARIES/tm_stm32f4_usart_dma.c) \
+$(abspath ../00-STM32F429_LIBRARIES/tm_stm32f4_adc.c) \
+$(abspath ../00-STM32F429_LIBRARIES/tm_stm32f4_pwm.c) \
+$(abspath ../00-STM32F429_LIBRARIES/tm_stm32f4_timer_properties.c) \
+$(abspath ../00-STM32F429_LIBRARIES/tm_stm32f4_i2c.c) \
+$(abspath ../00-STM32F429_LIBRARIES/tm_stm32f4_watchdog.c) \
 
-#Log files
-C_SOURCE_FILES += $(abspath ../../components/libraries/experimental_log/src/nrf_log_backend_rtt.c) \
-$(abspath ../../components/libraries/experimental_log/src/nrf_log_backend_serial.c) \
-$(abspath ../../components/libraries/experimental_log/src/nrf_log_default_backends.c) \
-$(abspath ../../components/libraries/experimental_log/src/nrf_log_frontend.c) \
-$(abspath ../../components/libraries/experimental_log/src/nrf_log_str_formatter.c) 
-
-#BLE files
-C_SOURCE_FILES += $(abspath ../../components/ble/common/ble_advdata.c) \
-  $(abspath ../../components/ble/ble_advertising/ble_advertising.c) \
-  $(abspath ../../components/ble/common/ble_conn_params.c) \
-  $(abspath ../../components/ble/common/ble_conn_state.c) \
-  $(abspath ../../components/ble/common/ble_srv_common.c) \
-  $(abspath ../../components/ble/peer_manager/gatt_cache_manager.c) \
-  $(abspath ../../components/ble/peer_manager/gatts_cache_manager.c) \
-  $(abspath ../../components/ble/peer_manager/id_manager.c) \
-  $(abspath ../../components/ble/nrf_ble_gatt/nrf_ble_gatt.c) \
-  $(abspath ../../components/ble/nrf_ble_qwr/nrf_ble_qwr.c) \
-  $(abspath ../../components/ble/peer_manager/peer_data_storage.c) \
-  $(abspath ../../components/ble/peer_manager/peer_database.c) \
-  $(abspath ../../components/ble/peer_manager/peer_id.c) \
-  $(abspath ../../components/ble/peer_manager/peer_manager.c) \
-  $(abspath ../../components/ble/peer_manager/pm_buffer.c) \
-  $(abspath ../../components/ble/peer_manager/pm_mutex.c) \
-  $(abspath ../../components/ble/peer_manager/security_dispatcher.c) \
-  $(abspath ../../components/ble/peer_manager/security_manager.c) \
-  $(abspath ../../components/softdevice/common/nrf_sdh.c) \
-  $(abspath ../../components/softdevice/common/nrf_sdh_ble.c) \
-  $(abspath ../../components/softdevice/common/nrf_sdh_soc.c) \
-
-#FDS
-C_SOURCE_FILES +=  $(abspath ../../components/libraries/fstorage/nrf_fstorage.c) \
-$(abspath ../../components/libraries/fstorage/nrf_fstorage_sd.c) \
-
+#system files
+C_SOURCE_FILES += $(abspath ./User/stm32f4xx_it.c) \
+$(abspath ./User/system_stm32f4xx.c) \
 
 #assembly files common to all targets
-ASM_SOURCE_FILES  = $(abspath Startup/gcc_startup_nrf52.s)
+ASM_SOURCE_FILES  = $(abspath ../00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS/CMSIS/Device/ST/STM32F4xx/Source/Templates/arm/startup_stm32f40_41xxx.s)
 
 
 
 #includes common to all targets
-INC_PATHS  = -I$(abspath ./CMSIS_4/CMSIS/Include)
-INC_PATHS += -I$(abspath ./nRF/CMSIS/Device/Include)
-INC_PATHS += -I$(abspath ./SeggerRTT)
-INC_PATHS += -I$(abspath ./Src)
-INC_PATHS += -I$(abspath ./Src/BLE)
-INC_PATHS += -I$(abspath ./Inc)
-INC_PATHS += -I$(abspath ../../components)
-INC_PATHS += -I$(abspath ../../components/boards)
-INC_PATHS += -I$(abspath ../../components/libraries/balloc)
-INC_PATHS += -I$(abspath ../../components/libraries/bsp)
-INC_PATHS += -I$(abspath ../../components/libraries/delay)
-INC_PATHS += -I$(abspath ../../components/libraries/experimental_log)
-INC_PATHS += -I$(abspath ../../components/libraries/experimental_log/src)
-INC_PATHS += -I$(abspath ../../components/libraries/experimental_memobj)
-INC_PATHS += -I$(abspath ../../components/libraries/experimental_section_vars)
-INC_PATHS += -I$(abspath ../../components/libraries/atomic)
-INC_PATHS += -I$(abspath ../../components/libraries/atomic_fifo)
-INC_PATHS += -I$(abspath ../../components/libraries/scheduler)
-INC_PATHS += -I$(abspath ../../components/libraries/strerror)
-INC_PATHS += -I$(abspath ../../components/libraries/timer)
-INC_PATHS += -I$(abspath ../../components/libraries/button)
-INC_PATHS += -I$(abspath ../../components/libraries/util)
-INC_PATHS += -I$(abspath ../../components/libraries/fstorage)
-INC_PATHS += -I$(abspath ../../components/libraries/fds) 
-INC_PATHS += -I$(abspath ../../components/softdevice/common)
-INC_PATHS += -I$(abspath ../../components/softdevice/s132/headers)
-INC_PATHS += -I$(abspath ../../components/softdevice/s132/headers/nrf52)
-INC_PATHS += -I$(abspath ../../modules/nrfx)
-INC_PATHS += -I$(abspath ../../modules/nrfx/drivers/include)
-INC_PATHS += -I$(abspath ../../modules/nrfx/hal)
-INC_PATHS += -I$(abspath ../../modules/nrfx/mdk)
-INC_PATHS += -I$(abspath ../../modules/nrfx/soc)
-INC_PATHS += -I$(abspath ../../integration/nrfx/legacy)
-INC_PATHS += -I$(abspath ../../external/fprintf)
-INC_PATHS += -I$(abspath ../../components/libraries/atomic_flags)
-INC_PATHS += -I$(abspath ../../components/ble/ble_advertising)
-INC_PATHS += -I$(abspath ../../components/ble/common)
-INC_PATHS += -I$(abspath ../../components/ble/peer_manager)
-INC_PATHS += -I$(abspath ../../components/ble/nrf_ble_gatt)
-INC_PATHS += -I$(abspath ../../components/ble/nrf_ble_qwr)
-INC_PATHS += -I$(abspath ../../components/libraries/pwr_mgmt)
-INC_PATHS += -I$(abspath ../../components/libraries/mutex)
+INC_PATHS  = -I$(abspath ./User)
+INC_PATHS  = -I$(abspath ./application)
+INC_PATHS += -I$(abspath ../00-STM32F429_LIBRARIES)
+INC_PATHS += -I$(abspath ../00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS/STM32F4xx_StdPeriph_Driver/inc)
+INC_PATHS += -I$(abspath ../00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS/STM32F4xx_StdPeriph_Driver/src)
+INC_PATHS += -I$(abspath ../00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS/CMSIS/Device/ST/STM32F4xx/Include)
+INC_PATHS += -I$(abspath ../00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS/CMSIS/Device/ST/STM32F4xx/Source/Templates/arm)
+INC_PATHS += -I$(abspath ../00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS/CMSIS/Include)
+INC_PATHS += -I$(abspath ../00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)
+INC_PATHS += -I$(abspath ../00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)
 
 
 
@@ -164,13 +95,13 @@ ifeq ($(config), Debug)
 	OPT := -O0 -g3
 	BOARD += -DDEBUG_NRF
 	BOARD += -DDEBUG
-	VERSION := $(shell grep VERSION Inc/SMART_KEY.h | cut -d \" -f2)
+	VERSION := $(shell grep VERSION Inc/SOLAR_PANEL.h | cut -d \" -f2)
 	OBJECT_DIRECTORY = build/debug
 else
 	CONFIG := RELEASE
 	OPT := -O3 -g0
 	BOARD += -DNDEBUG_NRF
-	VERSION := $(shell grep VERSION Inc/SMART_KEY.h | cut -d \" -f2)
+	VERSION := $(shell grep VERSION Inc/SOLAR_PANEL.h | cut -d \" -f2)
 	OBJECT_DIRECTORY = build/release
 endif
 
@@ -183,23 +114,23 @@ BUILD_DIRECTORIES := $(sort $(OBJECT_DIRECTORY) $(OUTPUT_BINARY_DIRECTORY) $(LIS
 
 
 #flags common to all targets
-CFLAGS  = -DBSP_DEFINES_ONLY
-CFLAGS += -DBOARD_PCA10040
-CFLAGS += -DFLOAT_ABI_HARD
-CFLAGS += -DNRF52
-CFLAGS += -DNRF52832_XXAA
-CFLAGS += -DNRF52_PAN_74
+CFLAGS  = -STM32F40_41xxx
+CFLAGS += -DUSE_STDPERIPH_DRIVER
+CFLAGS += -DARM_MATH_CM4
+CFLAGS += -D__FPU_PRESENT=1
+CFLAGS += -DSTM32F4XX
+CFLAGS += -DTM_DISCO_STM32F401_DISCOVERY
 CFLAGS += -DSWI_DISABLE0
-CFLAGS += -DNRF_SD_BLE_API_VERSION=6
-CFLAGS += -DS132
-CFLAGS += -DSOFTDEVICE_PRESENT
+CFLAGS += -DHSE_VALUE=8000000
+CFLAGS += -DPLL_M=8
+CFLAGS += -DPLL_N=336
+CFLAGS += -DPLL_P=2
+CFLAGS += -DPLL_Q=7
 CFLAGS += -mcpu=cortex-m4
 CFLAGS += -mthumb -mabi=aapcs --std=gnu99
 CFLAGS += -Wall -Werror
 CFLAGS += $(OPT)
 CFLAGS += $(BOARD)
-CFLAGS += -D__HEAP_SIZE=8192
-CFLAGS += -D__STACK_SIZE=8192
 CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 # keep every function in separate section. This will allow linker to dump unused functions
 CFLAGS += -ffunction-sections -fdata-sections -fno-strict-aliasing
@@ -237,17 +168,17 @@ ASMFLAGS += -D__STACK_SIZE=8192
 .PHONY: default help clean
 
 #default target - first one defined
-default: clean SMART_KEY
+default: clean SOLAR_PANEL
 
 #building all targets
 all: clean
 	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e cleanobj
-	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e SMART_KEY
+	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e SOLAR_PANEL
 
 #target for printing all targets
 help:
 	@echo following targets are available:
-	@echo 	SMART_KEY
+	@echo 	SOLAR_PANEL
 	@echo 	flash_softdevice
 
 C_SOURCE_FILE_NAMES = $(notdir $(C_SOURCE_FILES))
@@ -263,10 +194,10 @@ vpath %.s $(ASM_PATHS)
 
 OBJECTS = $(C_OBJECTS) $(ASM_OBJECTS)
 
-SMART_KEY: OUTPUT_FILENAME := SMARTKEY_$(CONFIG)_$(VERSION)_$(shell date +'%Y.%m.%d')
-SMART_KEY: LINKER_SCRIPT=Startup/SMART_KEY.ld
+SOLAR_PANEL: OUTPUT_FILENAME := SOLAR_$(CONFIG)_$(VERSION)_$(shell date +'%Y.%m.%d')
+SOLAR_PANEL: LINKER_SCRIPT=Startup/SOLAR_PANEL.ld
 
-SMART_KEY: $(BUILD_DIRECTORIES) $(OBJECTS)
+SOLAR_PANEL: $(BUILD_DIRECTORIES) $(OBJECTS)
 	@echo Linking target: $(OUTPUT_FILENAME).out
 	$(NO_ECHO)$(CC) $(LDFLAGS) $(OBJECTS) $(LIBS) -lm -o $(OUTPUT_BINARY_DIRECTORY)/$(OUTPUT_FILENAME).out
 	$(NO_ECHO)$(MAKE) -f $(MAKEFILE_NAME) -C $(MAKEFILE_DIR) -e finalize
@@ -320,7 +251,7 @@ clean:
 cleanobj:
 	$(RM) $(BUILD_DIRECTORIES)/*.o
 
-flash: SMART_KEY
+flash: SOLAR_PANEL
 	@echo Flashing: $(OUTPUT_BINARY_DIRECTORY)/$<.hex
 	nrfjprog --program $(OUTPUT_BINARY_DIRECTORY)/$<.hex -f nrf52  --sectorerase --verify
 	nrfjprog --reset -f nrf52
