@@ -31,7 +31,7 @@
 
 static MPU6050_data_t	MPU6050_data;
 static char 		  	str[100];
-static char				str_MPU[100];
+//static char				str_MPU[100];
 static uint8_t 			level_battery = 0;
 
 int main(void) 
@@ -108,9 +108,9 @@ int main(void)
 			app_lcd_send_string(str);
 		}
 
-		app_gps_get_value_and_send(1.3, 
-									 level_battery,
-									 MPU6050_data.Temperature);
+		app_gps_get_value_and_send(0.0, 
+								   level_battery,
+								   MPU6050_data.Temperature);
 
 		app_motor_control_servo();
 								

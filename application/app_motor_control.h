@@ -10,7 +10,7 @@
 
 #define MOTOR1            1
 #define MOTOR2            2
-#define SPEED_PERCENT_1   55
+#define SPEED_PERCENT_1   60
 #define SPEED_PERCENT_2   65
 #define STOP_THRESHOLD    200
 

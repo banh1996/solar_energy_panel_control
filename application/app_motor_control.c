@@ -106,11 +106,11 @@ void app_motor_control_servo(void)
 	adc3 = app_photoresistor_read(ADC_Channel_13);
 	adc_behind = app_photoresistor_read(ADC_Channel_15);
 
-	if(adc0 > 3500 && adc1 > 3500 && adc2> 3500 && adc3 > 3500 && adc_behind < 2900)
+	if(adc0 > 3500 && adc1 > 3500 && adc2 > 3500 && adc3 > 3500 && adc_behind < 2900)
 	{
 		app_motor_start(MOTOR1, SPEED_PERCENT_1, false);
 	}
-	else if(adc0 > 3500 && adc1 > 3500 && adc2> 3500 && adc3 > 3500 && adc_behind > 3500)
+	else if(adc0 > 3500 && adc1 > 3500 && adc2 > 3500 && adc3 > 3500 && adc_behind > 3500)
 	{
 		app_motor_stop(MOTOR1);
 	}
